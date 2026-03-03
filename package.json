@@ -1,0 +1,23 @@
+{
+  "name": "openclaw-video",
+  "version": "1.0.0",
+  "description": "OpenClaw automated video generation with Remotion",
+  "scripts": {
+    "dev": "remotion studio",
+    "build": "remotion render",
+    "render": "remotion render Main out/video.mp4"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "remotion": "^4.0.431"
+  },
+  "devDependencies": {
+    "@remotion/cli": "^4.0.431",
+    "@types/node": "^22.19.13",
+    "@types/react": "^19.0.6",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.3"
+  }
+}
