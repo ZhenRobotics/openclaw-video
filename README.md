@@ -1,446 +1,473 @@
-# OpenClaw Video - 自动化视频生成流水线
+# Company Secretary - AI 董事会秘书助手
 
-基于 OpenClaw + Remotion + OpenAI 的完全自动化视频生成系统。只需提供文本脚本，即可生成配音、时间戳、场景编排并最终渲染视频。
+基于 OpenClaw + OpenAI 的智能董事会秘书系统。自动化会议管理、决议跟踪、纪要生成和视频汇报，让公司治理更高效、更规范。
 
-## ✨ 特性
+## 核心功能
 
-- 🎤 **TTS 语音生成** - OpenAI TTS API，支持多种声音和语速
-- ⏱️ **时间戳提取** - OpenAI Whisper API，精确分段识别
-- 🎬 **场景编排** - 智能检测场景类型，自动生成 Remotion 数据
-- 🎨 **赛博风格** - 线框动画、故障效果、霓虹色彩
-- 🖼️ **背景视频** - 支持自定义背景视频，可调透明度和遮罩
-- 🤖 **完全自动化** - 一行命令完成从文本到视频的全流程
+- 📋 **会议管理** - 议程制定、会议记录、参会人员管理
+- 📝 **智能纪要生成** - 自动生成规范的会议纪要和决议文档
+- ✅ **决议跟踪** - 跟踪董事会决议执行情况
+- 🎯 **行动项管理** - 管理会议产生的行动项（Action Items）
+- 🎥 **视频汇报** - 自动生成董事会汇报视频、决议公告视频
+- 📊 **合规报告** - 生成符合监管要求的治理报告
 
-## 🚀 快速开始
+## 适用场景
+
+| 场景 | 功能 |
+|------|------|
+| **初创公司** | 轻量级会议管理，快速记录决议和行动项 |
+| **成长期公司** | 规范化治理流程，建立完整的会议档案 |
+| **上市公司** | 严格合规管理，信息披露，监管报告 |
+| **AI Agent 集成** | 作为工具被其他 Agent 调用，自动化董秘工作 |
+
+## 快速开始
 
 ### 前置要求
 
 - Node.js >= 18
-- pnpm (或 npm/yarn)
-- OpenAI API Key
+- OpenAI API Key（用于智能纪要生成和视频汇报）
 
 ### 安装
 
-#### 方式 1: 通过 ClawHub（推荐，适合 AI Agent 使用）
-
 ```bash
-# 1. 安装 skill
-clawhub install video-generator
+# 克隆项目
+git clone https://github.com/ZhenRobotics/openclaw-company-secretary.git
+cd openclaw-company-secretary
 
-# 2. 克隆项目
-git clone https://github.com/ZhenRobotics/openclaw-video.git ~/openclaw-video
-cd ~/openclaw-video
-
-# 3. 安装依赖
+# 安装依赖
 npm install
 
-# 4. 设置 API Key
-export OPENAI_API_KEY="sk-..."
-
-# 5. 验证安装
-./agents/video-cli.sh help
-```
-
-**ClawHub Skill 链接**: https://clawhub.ai/ZhenStaff/video-generator
-
-#### 方式 2: 直接从 GitHub
-
-```bash
-# 1. 克隆项目
-git clone https://github.com/ZhenRobotics/openclaw-video.git
-cd openclaw-video
-
-# 2. 安装依赖
-npm install
-
-# 3. 设置 API Key
+# 设置 API Key
 export OPENAI_API_KEY="sk-..."
 ```
 
-### 生成第一个视频
+### 基础使用
 
-#### 方式 1: 使用 Agent (推荐) 🤖
-
-```bash
-# 直接用自然语言生成视频
-./agents/video-cli.sh generate "三家巨头同一天说了一件事。微软说Copilot已经能写掉90%的代码。"
-
-# 或者使用完整 Agent
-node -r ts-node/register agents/video-agent.ts "帮我生成一个关于 AI 工具的视频"
-```
-
-#### 方式 2: 使用脚本
+#### 1. 创建董事会会议
 
 ```bash
-# 使用示例脚本生成视频
-./scripts/script-to-video.sh scripts/example-script.txt
+# 创建新会议
+./cli/secretary-cli.sh meeting create \
+  --date "2026-03-15" \
+  --type "regular" \
+  --title "2026年第一季度董事会"
 
-# 查看结果
-mpv out/example-script.mp4
+# 添加议程
+./cli/secretary-cli.sh agenda add \
+  --meeting-id "2026-Q1-01" \
+  --topic "审议2025年度财务报告" \
+  --presenter "CFO" \
+  --duration 30
 ```
 
-**就这么简单！** 🎉
-
-## 📖 完整流程
-
-### 1. 准备文本脚本
-
-创建一个文本文件，每句话自然分段：
+#### 2. 会议记录与纪要生成
 
 ```bash
-cat > scripts/my-video.txt <<'EOF'
-三家巨头同一天说了一件事。
-微软说Copilot已经能写掉百分之九十的代码。
-OpenAI说GPT5能替代大部分程序员。
-Google说Gemini2.0改变游戏规则。
-但真相是什么？
-AI不会取代开发者，而是让优秀开发者效率提升十倍。
-关注我学习AI工具。
-EOF
+# 录入会议讨论内容
+./cli/secretary-cli.sh meeting record \
+  --meeting-id "2026-Q1-01" \
+  --transcript "meeting-transcript.txt"
+
+# 生成会议纪要
+./cli/secretary-cli.sh minutes generate \
+  --meeting-id "2026-Q1-01" \
+  --template "standard"
+
+# 输出：meetings/2026-Q1-01/minutes.md
 ```
 
-### 2. 运行生成流水线
+#### 3. 决议管理
 
 ```bash
-./scripts/script-to-video.sh scripts/my-video.txt \
-  --voice nova \            # 选择声音 (alloy/echo/nova/shimmer等)
-  --speed 1.15 \            # 语速 (0.25-4.0)
-  --bg-video bg.mp4 \       # 背景视频 (可选)
-  --bg-opacity 0.4          # 背景透明度 (可选, 0-1)
+# 记录决议
+./cli/secretary-cli.sh resolution create \
+  --meeting-id "2026-Q1-01" \
+  --title "批准2025年度财务报告" \
+  --type "financial" \
+  --voting "8票赞成，0票反对，0票弃权"
+
+# 查看所有待执行决议
+./cli/secretary-cli.sh resolution list --status pending
+
+# 更新决议状态
+./cli/secretary-cli.sh resolution update \
+  --id "RES-2026-001" \
+  --status "completed"
 ```
 
-### 3. 输出文件
-
-```
-audio/my-video.mp3                  # TTS 生成的语音
-audio/my-video-timestamps.json      # Whisper 提取的时间戳
-src/scenes-data.ts                  # Remotion 场景数据
-out/my-video.mp4                    # 最终视频 ✨
-```
-
-## 🎯 流水线架构
-
-```
-文本脚本 (txt)
-    ↓
-TTS 语音生成 (OpenAI TTS)
-    ↓
-时间戳提取 (OpenAI Whisper)
-    ↓
-场景数据转换 (智能检测)
-    ↓
-视频渲染 (Remotion)
-    ↓
-成品视频 (MP4, 1080x1920)
-```
-
-## 🎨 场景类型
-
-流水线自动检测并生成以下 6 种场景类型：
-
-| 类型 | 效果 | 触发条件 |
-|------|------|----------|
-| **title** | 故障效果 + 弹簧缩放 | 第一个片段 |
-| **emphasis** | 放大弹出 | 包含百分比 (90%, 10倍) |
-| **pain** | 震动 + 红色警告 | 包含"说"、"问题" |
-| **content** | 平滑淡入 | 包含"真相"、"但" |
-| **circle** | 旋转圆环高亮 | 手动标记 |
-| **end** | 上滑淡出 | 最后一个片段 |
-
-## 🛠️ 可用脚本
-
-### Agent 工具 (推荐)
-
-| 脚本 | 功能 | 用法 |
-|------|------|------|
-| `video-cli.sh` | Agent CLI 工具 | `./agents/video-cli.sh generate <脚本>` |
-| `video-agent.ts` | 智能 Agent | `node -r ts-node/register agents/video-agent.ts <请求>` |
-| `tools.ts` | 工具函数库 | `node -r ts-node/register agents/tools.ts test` |
-
-### 核心脚本
-
-| 脚本 | 功能 | 用法 |
-|------|------|------|
-| `script-to-video.sh` | 完整流水线 | `./scripts/script-to-video.sh <script.txt>` |
-| `tts-generate.sh` | TTS 语音生成 | `./scripts/tts-generate.sh <文本>` |
-| `whisper-timestamps.sh` | 时间戳提取 | `./scripts/whisper-timestamps.sh <audio.mp3>` |
-| `timestamps-to-scenes.js` | 场景转换 | `node scripts/timestamps-to-scenes.js <timestamps.json>` |
-
-### 测试脚本
-
-| 脚本 | 功能 |
-|------|------|
-| `test-agent.sh` | 测试 Agent 功能 |
-| `test-tts.sh` | 测试 TTS 生成 |
-| `test-whisper.sh` | 测试 Whisper 提取 |
-
-## 📚 文档
-
-### 快速开始
-
-- [QUICKSTART.md](QUICKSTART.md) - **5 分钟快速开始** ⚡
-- [DELIVERY.md](DELIVERY.md) - **项目交付文档** 📦
-- [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md) - **项目总结** 📊
-
-### 使用指南
-
-- [AGENT.md](docs/AGENT.md) - **智能 Agent 使用指南** ⭐
-- [FAQ.md](docs/FAQ.md) - **常见问题解答** 🔧
-- [PIPELINE.md](docs/PIPELINE.md) - 完整流水线架构和使用指南
-
-### 技术文档
-
-- [TTS.md](docs/TTS.md) - TTS 语音生成详解
-- [WHISPER.md](docs/WHISPER.md) - Whisper 时间戳提取详解
-- [TESTING.md](docs/TESTING.md) - 测试指南
-
-### 集成和扩展
-
-- [openclaw-integration.md](agents/openclaw-integration.md) - OpenClaw 集成指南
-
-## 🤖 Agent 使用
-
-### 智能视频生成
-
-Agent 可以理解自然语言并自动生成视频：
+#### 4. 行动项跟踪
 
 ```bash
-# 示例 1: 直接生成
-./agents/video-cli.sh generate "AI 改变世界"
+# 创建行动项
+./cli/secretary-cli.sh action create \
+  --meeting-id "2026-Q1-01" \
+  --task "准备Q1经营数据分析报告" \
+  --assignee "CEO" \
+  --deadline "2026-03-30"
 
-# 示例 2: 带配置
-./agents/video-cli.sh generate "三个AI工具提升效率" --voice nova --speed 1.2
+# 查看我的行动项
+./cli/secretary-cli.sh action list --assignee "CEO" --status pending
 
-# 示例 3: 使用自然语言
-node -r ts-node/register agents/video-agent.ts "帮我生成一个关于 GPT 的视频"
-
-# 示例 4: 脚本优化
-./agents/video-cli.sh optimize "这是我的脚本内容"
-
-# 示例 5: 获取帮助
-./agents/video-cli.sh help
+# 完成行动项
+./cli/secretary-cli.sh action complete --id "ACT-2026-001"
 ```
 
-### Agent 特性
-
-- 🧠 **自然语言理解** - 理解多种表达方式
-- 📊 **脚本分析** - 自动分析长度、风格、关键词
-- 💡 **智能建议** - 提供优化建议
-- 🎬 **一键生成** - 完整流水线自动化
-- 🔧 **灵活配置** - 支持自定义声音、语速等
-
-详见 [Agent 文档](docs/AGENT.md)。
-
-## 💡 使用示例
-
-### 示例 1: 技术教程视频
+#### 5. 生成汇报视频
 
 ```bash
-cat > scripts/tech-tutorial.txt <<'EOF'
-今天教大家如何使用AI工具。
-第一步，安装必要的软件。
-第二步，配置API密钥。
-第三步，开始使用。
-是不是很简单？
-关注我学习更多技巧。
-EOF
+# 生成董事会决议公告视频
+./cli/secretary-cli.sh video generate \
+  --type "resolution-announcement" \
+  --meeting-id "2026-Q1-01" \
+  --resolution-id "RES-2026-001"
 
-./scripts/script-to-video.sh scripts/tech-tutorial.txt \
-  --voice alloy \
-  --speed 1.0
-```
-
-### 示例 2: 快节奏短视频
-
-```bash
-cat > scripts/quick-tips.txt <<'EOF'
-三个AI工具改变你的工作效率。
-第一个，GPT帮你写代码。
-第二个，Whisper帮你转写音频。
-第三个，Remotion帮你生成视频。
-试试看，效率提升十倍！
-EOF
-
-./scripts/script-to-video.sh scripts/quick-tips.txt \
+# 生成投资者汇报视频
+./cli/secretary-cli.sh video generate \
+  --type "investor-update" \
+  --script "Q1业绩超预期。营收增长45%。净利润增长60%。关注我们获取更多信息。" \
   --voice nova \
-  --speed 1.3
+  --speed 1.15
 ```
 
-## ⚙️ 高级配置
+## 会议管理流程
 
-### 自定义视频参数
+```
+会前准备
+    ↓
+  创建会议 → 制定议程 → 发送通知
+    ↓
+会议进行
+    ↓
+  签到记录 → 议程讨论 → 决议表决 → 行动项分配
+    ↓
+会后管理
+    ↓
+  生成纪要 → 决议归档 → 跟踪执行 → 生成报告
+```
 
-编辑 `src/scenes-data.ts`:
+## 文档模板
 
+系统内置多种文档模板：
+
+| 模板类型 | 说明 | 适用场景 |
+|---------|------|----------|
+| **standard** | 标准会议纪要 | 常规董事会 |
+| **annual** | 年度股东大会纪要 | 年度大会 |
+| **special** | 特别董事会纪要 | 重大事项决策 |
+| **audit** | 审计委员会纪要 | 审计相关会议 |
+| **remuneration** | 薪酬委员会纪要 | 薪酬相关会议 |
+
+## 数据结构
+
+### 会议信息
 ```typescript
-export const videoConfig = {
-  fps: 30,              // 帧率
-  width: 1080,          // 宽度
-  height: 1920,         // 高度 (竖屏)
-};
-```
-
-### 添加背景视频
-
-**方式 1：通过命令行参数（推荐）**
-
-```bash
-./scripts/script-to-video.sh scripts/my-script.txt \
-  --bg-video /path/to/background.mp4 \   # 背景视频路径
-  --bg-opacity 0.4 \                     # 透明度 (0-1, 默认 0.3)
-  --bg-overlay "rgba(10, 10, 15, 0.6)"   # 遮罩颜色 (可选)
-```
-
-**方式 2：手动编辑配置文件**
-
-编辑 `src/scenes-data.ts`:
-
-```typescript
-export const videoConfig = {
-  fps: 30,
-  width: 1080,
-  height: 1920,
-  durationInFrames: 450,
-  audioPath: 'audio.mp3',
-  bgVideo: 'background.mp4',              // 背景视频 (放在 public/)
-  bgOpacity: 0.4,                         // 透明度
-  bgOverlayColor: 'rgba(10, 10, 15, 0.6)', // 遮罩颜色
-};
-```
-
-**透明度建议：**
-- `0.2-0.3` - 背景若隐若现，文字非常清晰（推荐用于文字密集内容）
-- `0.4-0.5` - 背景较明显，文字仍然清晰（推荐用于平衡效果）
-- `0.6-0.8` - 背景很明显，需要更深的遮罩层（推荐用于视觉效果优先）
-
-### 自定义场景检测规则
-
-编辑 `scripts/timestamps-to-scenes.js`:
-
-```javascript
-function determineSceneType(index, total, text) {
-  // 添加你的自定义规则
-  if (text.includes('重要')) return 'emphasis';
-  if (text.includes('注意')) return 'pain';
-
-  // 保留默认规则
-  if (index === 0) return 'title';
-  if (index === total - 1) return 'end';
-  return 'content';
+interface Meeting {
+  id: string;                    // 会议ID，如 "2026-Q1-01"
+  date: string;                  // 会议日期
+  type: MeetingType;             // 会议类型
+  title: string;                 // 会议标题
+  location: string;              // 会议地点
+  attendees: Attendee[];         // 参会人员
+  agenda: AgendaItem[];          // 议程列表
+  resolutions: Resolution[];     // 决议列表
+  actionItems: ActionItem[];     // 行动项列表
+  status: MeetingStatus;         // 会议状态
 }
+
+type MeetingType =
+  | 'regular'           // 定期董事会
+  | 'special'           // 特别董事会
+  | 'annual'            // 年度股东大会
+  | 'audit'             // 审计委员会
+  | 'remuneration';     // 薪酬委员会
+
+type MeetingStatus =
+  | 'scheduled'         // 已安排
+  | 'in-progress'       // 进行中
+  | 'completed'         // 已完成
+  | 'cancelled';        // 已取消
 ```
 
-### 自定义视觉风格
+### 决议信息
+```typescript
+interface Resolution {
+  id: string;                    // 决议ID，如 "RES-2026-001"
+  meetingId: string;             // 所属会议ID
+  title: string;                 // 决议标题
+  content: string;               // 决议内容
+  type: ResolutionType;          // 决议类型
+  voting: VotingResult;          // 表决结果
+  status: ResolutionStatus;      // 执行状态
+  deadline?: string;             // 执行期限
+}
 
-编辑 `src/SceneRenderer.tsx`:
+type ResolutionType =
+  | 'financial'         // 财务决议
+  | 'strategic'         // 战略决议
+  | 'personnel'         // 人事决议
+  | 'governance'        // 治理决议
+  | 'investment'        // 投资决议
+  | 'compliance';       // 合规决议
+
+type ResolutionStatus =
+  | 'pending'           // 待执行
+  | 'in-progress'       // 执行中
+  | 'completed'         // 已完成
+  | 'cancelled';        // 已取消
+```
+
+### 行动项
+```typescript
+interface ActionItem {
+  id: string;                    // 行动项ID
+  meetingId: string;             // 来源会议
+  task: string;                  // 任务描述
+  assignee: string;              // 负责人
+  deadline: string;              // 截止日期
+  priority: Priority;            // 优先级
+  status: ActionStatus;          // 状态
+  notes?: string;                // 备注
+}
+
+type Priority = 'high' | 'medium' | 'low';
+type ActionStatus = 'pending' | 'in-progress' | 'completed' | 'overdue';
+```
+
+## 视频汇报功能
+
+保留了完整的视频生成能力，专门用于董事会相关的视频汇报：
+
+### 使用场景
+
+1. **决议公告视频** - 对外发布重大决议
+2. **投资者汇报** - 定期业绩汇报视频
+3. **内部沟通** - 董事会精神传达
+4. **合规披露** - 信息披露要求的视频内容
+
+### 视频生成
+
+```bash
+# 基于决议生成公告视频
+./cli/secretary-cli.sh video from-resolution \
+  --resolution-id "RES-2026-001" \
+  --template "announcement"
+
+# 基于纪要生成汇报视频
+./cli/secretary-cli.sh video from-minutes \
+  --meeting-id "2026-Q1-01" \
+  --highlights "营收增长,新产品发布,战略调整"
+
+# 自定义脚本生成
+./cli/secretary-cli.sh video custom \
+  --script "董事会批准新一轮融资。估值提升50%。投资用于产品研发和市场拓展。" \
+  --voice nova \
+  --bg-video corporate-bg.mp4
+```
+
+## 项目结构
+
+```
+openclaw-company-secretary/
+├── cli/                         # CLI 工具
+│   ├── secretary-cli.sh         # 主命令行工具
+│   └── commands/                # 子命令实现
+│       ├── meeting.ts           # 会议管理
+│       ├── minutes.ts           # 纪要生成
+│       ├── resolution.ts        # 决议管理
+│       ├── action.ts            # 行动项管理
+│       └── video.ts             # 视频生成
+├── src/
+│   ├── core/                    # 核心模块
+│   │   ├── meeting-manager.ts  # 会议管理器
+│   │   ├── minutes-generator.ts # 纪要生成器
+│   │   ├── resolution-tracker.ts # 决议跟踪器
+│   │   └── action-tracker.ts    # 行动项跟踪器
+│   ├── templates/               # 文档模板
+│   │   ├── standard-minutes.ts
+│   │   ├── resolution-doc.ts
+│   │   └── report-template.ts
+│   ├── video/                   # 视频生成（保留原功能）
+│   │   ├── video-generator.ts
+│   │   ├── CyberWireframe.tsx
+│   │   └── SceneRenderer.tsx
+│   └── types.ts                 # 类型定义
+├── data/                        # 数据存储
+│   ├── meetings/                # 会议数据
+│   ├── resolutions/             # 决议数据
+│   └── actions/                 # 行动项数据
+├── scripts/                     # 工具脚本
+│   └── video/                   # 视频相关脚本（保留）
+└── docs/
+    ├── MEETING-GUIDE.md         # 会议管理指南
+    ├── MINUTES-GUIDE.md         # 纪要撰写指南
+    ├── COMPLIANCE.md            # 合规指南
+    └── VIDEO-GUIDE.md           # 视频生成指南
+```
+
+## 智能特性
+
+### 1. AI 驱动的纪要生成
+
+系统使用 OpenAI GPT 自动分析会议讨论内容，生成结构化纪要：
+
+- 自动提取关键决策点
+- 识别行动项和责任人
+- 格式化表决结果
+- 生成执行摘要
+
+### 2. 决议智能跟踪
+
+- 自动识别决议类型
+- 设置执行提醒
+- 跟踪完成进度
+- 生成执行报告
+
+### 3. 合规检查
+
+- 检查会议流程合规性
+- 验证表决有效性
+- 提醒信息披露要求
+- 生成监管报告
+
+## 使用示例
+
+### 完整会议流程示例
+
+```bash
+# 1. 会前准备
+./cli/secretary-cli.sh meeting create \
+  --date "2026-03-15" \
+  --type "regular" \
+  --title "2026年第一季度董事会"
+
+./cli/secretary-cli.sh agenda add \
+  --meeting-id "2026-Q1-01" \
+  --topic "审议2025年度财务报告" \
+  --presenter "CFO"
+
+./cli/secretary-cli.sh agenda add \
+  --meeting-id "2026-Q1-01" \
+  --topic "讨论新一轮融资方案" \
+  --presenter "CEO"
+
+# 2. 会议进行
+./cli/secretary-cli.sh meeting start --meeting-id "2026-Q1-01"
+
+# 记录讨论内容（支持实时记录或上传录音转录）
+./cli/secretary-cli.sh meeting record \
+  --meeting-id "2026-Q1-01" \
+  --transcript "discussion.txt"
+
+# 记录决议
+./cli/secretary-cli.sh resolution create \
+  --meeting-id "2026-Q1-01" \
+  --title "批准2025年度财务报告" \
+  --voting "8:0:0"
+
+# 分配行动项
+./cli/secretary-cli.sh action create \
+  --meeting-id "2026-Q1-01" \
+  --task "准备融资材料" \
+  --assignee "CFO" \
+  --deadline "2026-03-30"
+
+# 3. 会后处理
+./cli/secretary-cli.sh meeting close --meeting-id "2026-Q1-01"
+
+# 生成纪要
+./cli/secretary-cli.sh minutes generate \
+  --meeting-id "2026-Q1-01" \
+  --output "meetings/2026-Q1-01/minutes.pdf"
+
+# 生成汇报视频
+./cli/secretary-cli.sh video from-minutes \
+  --meeting-id "2026-Q1-01"
+
+# 发送纪要
+./cli/secretary-cli.sh minutes send \
+  --meeting-id "2026-Q1-01" \
+  --recipients "董事会成员"
+```
+
+## API 集成
+
+可作为 API 服务供其他系统调用：
 
 ```typescript
-// 修改颜色
-const primaryColor = '#00F5FF';  // 青色霓虹
-const bgColor = '#0A0A0F';       // 深色背景
+import { CompanySecretary } from 'openclaw-company-secretary';
 
-// 修改动画
-spring({
-  frame,
-  fps,
-  config: { damping: 10, stiffness: 100 }
-})
+const secretary = new CompanySecretary({
+  apiKey: process.env.OPENAI_API_KEY
+});
+
+// 创建会议
+const meeting = await secretary.createMeeting({
+  date: '2026-03-15',
+  type: 'regular',
+  title: '第一季度董事会'
+});
+
+// 生成纪要
+const minutes = await secretary.generateMinutes({
+  meetingId: meeting.id,
+  transcript: '会议讨论内容...'
+});
+
+// 跟踪决议
+await secretary.trackResolution({
+  title: '批准融资方案',
+  deadline: '2026-06-30'
+});
 ```
 
-## 💰 成本估算
+## Agent 集成
 
-| 组件 | 定价 | 15秒视频成本 |
-|------|------|--------------|
-| OpenAI TTS | $0.015/1K字符 | ~$0.001 |
-| OpenAI Whisper | $0.006/分钟 | ~$0.0015 |
-| Remotion 渲染 | 本地免费 | $0 |
-| **总计** | | **~$0.003** |
-
-**每个视频成本不到 1 美分！** 💰
-
-## 🎬 视频规格
-
-- **分辨率**: 1080 x 1920 (竖屏，适合抖音/视频号)
-- **帧率**: 30 fps
-- **格式**: MP4 (H.264 + AAC)
-- **时长**: 根据脚本自动计算
-
-## 🐛 故障排查
-
-### TTS 问题
+作为 OpenClaw skill 被其他 Agent 调用：
 
 ```bash
-# 测试 TTS
-./scripts/test-tts.sh
+# 安装 skill
+clawhub install company-secretary
 
-# 常见问题
-export OPENAI_API_KEY="sk-..."  # 设置 API Key
+# Agent 使用
+"请帮我准备明天的董事会会议材料"
+"生成上次董事会的纪要"
+"检查待执行的决议"
 ```
 
-### Whisper 问题
+## 成本估算
 
-```bash
-# 使用示例数据测试
-node scripts/timestamps-to-scenes.js audio/example-timestamps.json
+| 功能 | 成本 |
+|------|------|
+| 会议纪要生成（GPT-4） | ~$0.05/次 |
+| 决议公告视频（TTS + Whisper） | ~$0.003/个 |
+| 合规报告生成 | ~$0.02/份 |
 
-# 如果 API 超时，可以手动编辑时间戳文件
-```
+**典型月度成本**（10次董事会）：< $1
 
-### Remotion 问题
+## 合规与安全
 
-```bash
-# 开发模式预览
-pnpm dev
+- 📁 **本地数据存储** - 所有会议数据存储在本地
+- 🔒 **数据加密** - 敏感信息加密存储
+- 📝 **审计日志** - 完整的操作记录
+- ✅ **合规检查** - 自动检查治理合规性
 
-# 打开浏览器访问 http://localhost:3000
-```
+## 开发计划
 
-## 📦 项目结构
-
-```
-openclaw-video/
-├── audio/                      # 音频文件
-│   ├── example-timestamps.json # 示例时间戳
-│   └── *.mp3                   # 生成的音频
-├── src/
-│   ├── types.ts                # TypeScript 类型定义
-│   ├── scenes-data.ts          # 场景数据 (自动生成)
-│   ├── Root.tsx                # Remotion 根组件
-│   ├── CyberWireframe.tsx      # 主视频组件
-│   └── SceneRenderer.tsx       # 场景渲染器
-├── scripts/
-│   ├── script-to-video.sh      # 🎯 完整流水线
-│   ├── tts-generate.sh         # TTS 生成
-│   ├── whisper-timestamps.sh   # Whisper 提取
-│   ├── timestamps-to-scenes.js # 场景转换
-│   ├── test-tts.sh             # TTS 测试
-│   ├── test-whisper.sh         # Whisper 测试
-│   └── example-script.txt      # 示例脚本
-├── docs/
-│   ├── PIPELINE.md             # 流水线文档
-│   ├── TTS.md                  # TTS 文档
-│   └── WHISPER.md              # Whisper 文档
-├── out/                        # 渲染输出
-│   └── *.mp4                   # 生成的视频
-└── package.json
-```
-
-## 🔮 未来计划
-
-- [ ] Agent 自动化选题和脚本生成
-- [ ] 支持更多视觉风格模板
-- [ ] 集成背景音乐
-- [ ] 自动字幕生成
+- [ ] Web UI 界面
+- [ ] 移动端 App
+- [ ] 与企业微信/钉钉集成
 - [ ] 多语言支持
+- [ ] 电子签名集成
+- [ ] 区块链存证
 
-## 🤝 贡献
+## 贡献
 
 欢迎提交 Issue 和 Pull Request！
 
-## 📄 许可证
+## 许可证
 
 MIT
 
 ---
 
-**用 AI 生成视频，从未如此简单！** ✨🎬🚀
+**让董事会治理更智能、更高效！**

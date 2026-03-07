@@ -1,6 +1,6 @@
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Video, staticFile } from 'remotion';
-import { SceneData } from './types';
+import { SceneData } from './types.js';
 
 interface SceneRendererProps {
   scene: SceneData;

@@ -1,63 +1,48 @@
-import { SceneData } from './types';
+import { SceneData } from './types.js';
 
 // Auto-generated from Whisper timestamps
-// Generated at: 2026-03-03T05:39:57.189Z
+// Generated at: 2026-03-07T09:58:36.310Z
 export const scenes: SceneData[] = [
   {
     "start": 0,
-    "end": 2.4000000953674316,
+    "end": 3.46,
     "type": "title",
-    "title": "视频三家巨头同一天说了一件事",
+    "title": "三家巨头同一天说了一件事",
     "xiaomo": "peek"
   },
   {
-    "start": 2.4000000953674316,
-    "end": 5.599999904632568,
+    "start": 3.46,
+    "end": 5.9,
     "type": "emphasis",
     "title": "微软说Copilot已经能写掉90%的代码",
     "highlight": "Copilot",
     "xiaomo": "think"
   },
   {
-    "start": 5.599999904632568,
-    "end": 9,
+    "start": 5.9,
+    "end": 8.2,
     "type": "pain",
-    "title": "OpenAI说GPT-5能替代大部分程序员",
+    "title": "OpenAI说GPT5能替代大部分程序员",
     "highlight": "GPT"
   },
   {
-    "start": 9,
-    "end": 11.800000190734863,
+    "start": 8.2,
+    "end": 10.5,
     "type": "pain",
-    "title": "Google说Gemini 2.0改变游戏规则",
+    "title": "Google说Gemini2.0改变游戏规则",
     "highlight": "Gemini"
   },
   {
-    "start": 11.800000190734863,
+    "start": 10.5,
     "end": 13,
     "type": "content",
-    "title": "但真相是什么",
-    "xiaomo": "point"
-  },
-  {
-    "start": 13,
-    "end": 14.699999809265137,
-    "type": "content",
-    "title": "AI不会取代开发者",
+    "title": "但真相是什么AI不会取代开发者而是让优秀开发者效率提升10倍",
     "highlight": "AI",
     "xiaomo": "point"
   },
   {
-    "start": 14.699999809265137,
-    "end": 17.600000381469727,
-    "type": "content",
-    "title": "而是让优秀开发者效率提升10倍",
-    "highlight": "10倍",
-    "xiaomo": "point"
-  },
-  {
-    "start": 17.600000381469727,
-    "end": 19,
+    "start": 13,
+    "end": 15,
     "type": "end",
     "title": "关注我学习AI工具",
     "highlight": "AI",
@@ -70,6 +55,9 @@ export const videoConfig = {
   fps: 30,
   width: 1080,
   height: 1920,  // Vertical video for 视频号
-  durationInFrames: 570,  // 19.00 seconds * 30 fps
-  audioPath: 'generated.mp3',  // Audio file path (relative to public/)
+  durationInFrames: 450,  // 15.00 seconds * 30 fps
+  audioPath: 'example-script.mp3',  // Audio file path (relative to public/)
+  bgVideo: 'test-background.mp4',  // Background video file (relative to public/)
+  bgOpacity: 0.4,  // Background video opacity (0-1)
+  bgOverlayColor: 'rgba(10, 10, 15, 0.6)',  // Overlay color for better text visibility
 };

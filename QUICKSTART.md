@@ -1,342 +1,264 @@
 # 快速开始指南
 
-5 分钟快速上手视频生成系统。
+5 分钟快速上手董事会秘书助手。
 
-## 🚀 最快路径
-
-### 1. 安装（2 分钟）
+## 安装
 
 ```bash
-cd /home/justin/openclaw-video
-pnpm install
+# 克隆项目
+cd /home/justin/openclaw-company-secretary
+
+# 安装依赖
+npm install
+
+# 设置 OpenAI API Key (可选，用于 AI 功能)
 export OPENAI_API_KEY="sk-..."
+
+# 添加可执行权限
+chmod +x cli/secretary-cli.sh
 ```
 
-### 2. 生成第一个视频（3 分钟）
+## 快速体验
+
+### 1. 创建第一个董事会会议
 
 ```bash
-# 方式 1: 使用 Agent（推荐）
-./agents/video-cli.sh generate "三家巨头同一天说了一件事。微软说Copilot已经能写掉90%的代码。"
-
-# 方式 2: 使用脚本
-./scripts/script-to-video.sh scripts/example-script.txt
-
-# 3. 查看结果
-mpv out/generated.mp4
+./cli/secretary-cli.sh meeting create \
+  --date "2026-03-15" \
+  --type "regular" \
+  --title "2026年第一季度董事会" \
+  --location "总部会议室"
 ```
 
-**完成！** 🎉
+输出：
+```
+✅ 会议创建成功!
 
-## 📝 常见使用场景
+会议ID: 2026-Q1-01
+标题: 2026年第一季度董事会
+时间: 2026-03-15
+类型: regular
+状态: scheduled
+```
 
-### 场景 1: 技术教程
+### 2. 记录决议
 
 ```bash
-cat > scripts/tutorial.txt <<'EOF'
-今天教大家三个AI工具。
-第一个，ChatGPT帮你写代码。
-第二个，Whisper帮你转写音频。
-第三个，Remotion帮你生成视频。
-试试看，效率提升十倍！
-EOF
-
-./agents/video-cli.sh generate "$(cat scripts/tutorial.txt)" --voice alloy --speed 1.0
+./cli/secretary-cli.sh resolution create \
+  --meeting-id "2026-Q1-01" \
+  --title "批准2025年度财务报告" \
+  --content "董事会审议并批准公司2025年度财务报告" \
+  --voting "8:0:0"
 ```
 
-### 场景 2: 快节奏短视频
+### 3. 创建行动项
 
 ```bash
-./agents/video-cli.sh generate "AI改变世界。GPT写代码。Whisper转音频。Remotion做视频。关注学习更多。" --voice nova --speed 1.3
+./cli/secretary-cli.sh action create \
+  --meeting-id "2026-Q1-01" \
+  --task "准备Q1经营分析报告" \
+  --assignee "CEO" \
+  --deadline "2026-03-30" \
+  --priority high
 ```
 
-### 场景 3: 脚本优化
+### 4. 生成会议纪要
 
 ```bash
-# 先分析脚本
-./agents/video-cli.sh optimize "你的脚本内容"
-
-# 根据建议调整后再生成
-./agents/video-cli.sh generate "优化后的脚本"
+./cli/secretary-cli.sh minutes generate \
+  --meeting-id "2026-Q1-01" \
+  --template standard
 ```
 
-## 🎨 自定义配置
+纪要将保存到：`data/minutes/2026-Q1-01.md`
 
-### 选择声音
+### 5. 查看工作台
 
 ```bash
-# 试听不同声音
-./scripts/tts-generate.sh "测试" --out audio/test-alloy.mp3 --voice alloy
-./scripts/tts-generate.sh "测试" --out audio/test-nova.mp3 --voice nova
-mpv audio/test-*.mp3
-
-# 使用喜欢的声音
-./agents/video-cli.sh generate "你的脚本" --voice nova
+./cli/secretary-cli.sh dashboard
 ```
 
-### 调整语速
+输出示例：
+```
+╔════════════════════════════════════════════════════════════╗
+║          Company Secretary - 工作台                       ║
+╚════════════════════════════════════════════════════════════╝
+
+📅 即将到来的会议
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. 2026年第一季度董事会
+   时间: 2026-03-15 | 状态: ⏰ 已安排
+
+📋 待执行决议
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. 批准2025年度财务报告
+   会议: 2026-Q1-01 | 截止: 2026-04-15
+
+📊 统计信息
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+行动项: 总数 1 | 待处理 1 | 进行中 0 | 已完成 0
+决议: 总数 1 | 待执行 1 | 进行中 0 | 已完成 0
+
+完成率: 行动项 0.0% | 决议通过率 100.0%
+```
+
+## 常见使用场景
+
+### 场景 1: 完整的会议流程
 
 ```bash
-# 慢速（教程）
-./agents/video-cli.sh generate "你的脚本" --speed 0.9
+# 1. 创建会议
+./cli/secretary-cli.sh meeting create \
+  --date "2026-03-15" \
+  --type "regular" \
+  --title "第一季度董事会"
 
-# 正常（默认）
-./agents/video-cli.sh generate "你的脚本" --speed 1.0
+# 2. 开始会议
+./cli/secretary-cli.sh meeting start --meeting-id "2026-Q1-01"
 
-# 稍快（推荐短视频）
-./agents/video-cli.sh generate "你的脚本" --speed 1.15
+# 3. 记录讨论（准备 discussion.txt 文件）
+./cli/secretary-cli.sh meeting record \
+  --meeting-id "2026-Q1-01" \
+  --transcript discussion.txt
 
-# 快速（快节奏短视频）
-./agents/video-cli.sh generate "你的脚本" --speed 1.3
+# 4. 创建决议
+./cli/secretary-cli.sh resolution create \
+  --meeting-id "2026-Q1-01" \
+  --title "批准融资方案" \
+  --content "董事会批准A轮融资方案" \
+  --voting "7:1:0"
+
+# 5. 创建行动项
+./cli/secretary-cli.sh action create \
+  --meeting-id "2026-Q1-01" \
+  --task "完成融资文件签署" \
+  --assignee "CFO" \
+  --deadline "2026-04-01"
+
+# 6. 结束会议
+./cli/secretary-cli.sh meeting close --meeting-id "2026-Q1-01"
+
+# 7. 生成纪要
+./cli/secretary-cli.sh minutes generate \
+  --meeting-id "2026-Q1-01"
 ```
 
-### 自定义场景
+### 场景 2: 查看我的待办事项
 
 ```bash
-# 1. 生成基础视频
-./agents/video-cli.sh generate "你的脚本"
+# 查看所有待处理的行动项
+./cli/secretary-cli.sh action list --status pending
 
-# 2. 编辑场景数据
-nano src/scenes-data.ts
+# 查看我的行动项
+./cli/secretary-cli.sh action list --assignee "CEO" --status pending
 
-# 3. 重新渲染
-pnpm exec remotion render Main out/custom.mp4
+# 更新行动项进度
+./cli/secretary-cli.sh action update \
+  --id "ACT-2026-001" \
+  --progress 50
+
+# 完成行动项
+./cli/secretary-cli.sh action complete --id "ACT-2026-001"
 ```
 
-## 🧪 测试系统
+### 场景 3: 生成汇报视频（保留的视频功能）
 
 ```bash
-# 快速测试（不需要 API Key）
-./agents/video-cli.sh help
-./agents/video-cli.sh optimize "测试脚本"
+# 基于决议生成公告视频
+./cli/secretary-cli.sh video generate \
+  --type "resolution-announcement" \
+  --script "董事会批准新一轮融资。估值提升50%。" \
+  --voice nova
 
-# 完整测试（需要 API Key）
-./agents/test-agent.sh
+# 生成投资者汇报视频
+./cli/secretary-cli.sh video generate \
+  --type "investor-update" \
+  --script "Q1营收增长45%。净利润增长60%。新产品上线。" \
+  --voice nova \
+  --speed 1.15
 ```
 
-## 🐛 遇到问题？
-
-### 问题：找不到命令
+### 场景 4: 决议跟踪
 
 ```bash
-# 确保在正确的目录
-cd /home/justin/openclaw-video
+# 列出所有待执行决议
+./cli/secretary-cli.sh resolution list --status pending
 
-# 确保脚本可执行
-chmod +x agents/*.sh scripts/*.sh
+# 更新决议状态
+./cli/secretary-cli.sh resolution update \
+  --id "RES-2026-001" \
+  --status "in-progress"
+
+# 完成决议
+./cli/secretary-cli.sh resolution update \
+  --id "RES-2026-001" \
+  --status "completed"
+
+# 检查逾期决议
+./cli/secretary-cli.sh resolution check-overdue
 ```
 
-### 问题：缺少依赖
+## 数据存储
 
-```bash
-# 重新安装
-pnpm install
+所有数据存储在 `data/` 目录：
 
-# 检查依赖
-pnpm exec tsx --version
-pnpm exec remotion --version
+```
+data/
+├── database.json           # 主数据库
+├── meetings/               # 会议数据
+├── resolutions/            # 决议数据
+├── actions/                # 行动项数据
+└── minutes/                # 会议纪要
+    ├── 2026-Q1-01.json    # JSON 格式
+    └── 2026-Q1-01.md      # Markdown 格式
 ```
 
-### 问题：API 错误
-
-```bash
-# 检查 API Key
-echo $OPENAI_API_KEY | head -c 10
-
-# 重新设置
-export OPENAI_API_KEY="sk-..."
-```
-
-### 问题：渲染失败
-
-```bash
-# 测试 Remotion
-pnpm dev
-# 浏览器打开 http://localhost:3000
-
-# 查看错误日志
-cat /tmp/remotion-*.log
-```
-
-## 📚 深入学习
-
-- **Agent 使用** → [docs/AGENT.md](docs/AGENT.md)
-- **流水线架构** → [docs/PIPELINE.md](docs/PIPELINE.md)
-- **测试指南** → [docs/TESTING.md](docs/TESTING.md)
-- **完整文档** → [README.md](README.md)
-
-## 💡 提示和技巧
-
-### 提示 1: 批量生成
-
-```bash
-# 批量处理多个脚本
-for script in scripts/*.txt; do
-  ./scripts/script-to-video.sh "$script"
-done
-```
-
-### 提示 2: 使用模板
-
-```bash
-# 创建脚本模板
-cat > scripts/template.txt <<'EOF'
-[开场] 引入话题
-[第一点] 阐述要点1
-[第二点] 阐述要点2
-[第三点] 阐述要点3
-[总结] 总结呼吁
-[结尾] 关注引导
-EOF
-```
-
-### 提示 3: 预览快速
-
-```bash
-# 开发模式实时预览
-pnpm dev
-
-# 浏览器自动刷新，快速迭代
-```
-
-### 提示 4: 成本控制
-
-```bash
-# 先用示例数据测试（免费）
-node scripts/timestamps-to-scenes.js audio/example-timestamps.json
-pnpm exec remotion render Main out/test.mp4
-
-# 确认效果后再调用 API
-```
-
-## 🎯 最佳实践
-
-### 1. 脚本编写
-
-- ✅ 每句话 5-10 秒
-- ✅ 使用具体数字（90%, 10倍）
-- ✅ 包含关键词（AI, GPT, Copilot）
-- ✅ 开头抓人，结尾引导
-- ❌ 避免过长句子
-- ❌ 避免复杂词汇
-
-### 2. 声音选择
-
-- **教程/讲解** → alloy (中性稳定)
-- **短视频/营销** → nova (活力清晰)
-- **深度内容** → onyx (沉稳专业)
-
-### 3. 语速控制
-
-- **教程视频** → 1.0 (正常)
-- **短视频** → 1.15-1.2 (稍快)
-- **快节奏** → 1.3-1.5 (快速)
-
-### 4. 视频长度
-
-- **抖音/视频号** → 15-30 秒
-- **B站/YouTube** → 1-3 分钟
-- **教程** → 3-5 分钟
-
-## 🔥 进阶玩法
-
-### 1. 集成到 OpenClaw
-
-```bash
-# 将 Agent 集成到 OpenClaw
-cp agents/video-generator.json ~/.openclaw/agents/
-openclaw message send --agent video-generator "生成视频：..."
-```
-
-### 2. 自定义视觉风格
+## 作为 npm 包使用
 
 ```typescript
-// 编辑 src/SceneRenderer.tsx
-const primaryColor = '#FF00FF';  // 改为紫色
-const bgColor = '#000000';       // 纯黑背景
+import { CompanySecretary } from 'openclaw-company-secretary';
+
+const secretary = new CompanySecretary({
+  apiKey: process.env.OPENAI_API_KEY,
+  dataPath: './data'
+});
+
+// 创建会议
+const meeting = secretary.meetings.createMeeting({
+  date: '2026-03-15',
+  type: 'regular',
+  title: '第一季度董事会'
+});
+
+// 生成纪要
+const minutes = await secretary.generateMinutes(meeting.id);
+
+// 查看工作台
+const dashboard = secretary.getDashboard();
+console.log(dashboard);
 ```
 
-### 3. 添加背景音乐
+## 集成到 OpenClaw
+
+作为 ClawHub skill 使用：
 
 ```bash
-# 使用 ffmpeg 合成背景音乐
-ffmpeg -i out/video.mp4 -i music.mp3 -filter_complex "[1:a]volume=0.2[a1];[0:a][a1]amix=inputs=2:duration=first[a]" -map 0:v -map "[a]" out/with-music.mp4
+# 安装 skill
+clawhub install company-secretary
+
+# Agent 使用
+"请帮我准备明天的董事会会议"
+"生成上次董事会的会议纪要"
+"检查我的待办行动项"
 ```
 
-### 4. 批量处理不同风格
+## 下一步
 
-```bash
-# 生成多个版本
-for voice in alloy nova onyx; do
-  ./agents/video-cli.sh generate "你的脚本" --voice $voice --output "video-$voice"
-done
-```
-
-## ⚡ 性能优化
-
-### 1. 本地缓存
-
-```bash
-# TTS 结果可复用
-ls -la audio/*.mp3
-
-# 避免重复 API 调用
-```
-
-### 2. 并行处理
-
-```bash
-# 同时处理多个视频
-./agents/video-cli.sh generate "脚本1" &
-./agents/video-cli.sh generate "脚本2" &
-wait
-```
-
-### 3. Remotion 加速
-
-```bash
-# 增加并发
-pnpm exec remotion render Main out/video.mp4 --concurrency 4
-
-# 降低质量快速预览
-pnpm exec remotion render Main out/preview.mp4 --quality 50
-```
-
-## 🎓 学习路径
-
-1. **第 1 天**：跑通基础流程，生成第一个视频
-2. **第 2 天**：尝试不同声音和语速
-3. **第 3 天**：自定义脚本和场景
-4. **第 4 天**：修改视觉风格
-5. **第 5 天**：集成到 OpenClaw
-
-## 🌟 成功案例
-
-### 案例 1: AI 工具介绍
-
-```bash
-脚本: "三个AI工具改变你的工作。第一个GPT写代码。第二个Whisper转音频。第三个Remotion做视频。试试看，效率提升十倍！"
-声音: nova
-语速: 1.2
-时长: 12 秒
-效果: ⭐⭐⭐⭐⭐
-```
-
-### 案例 2: 技术教程
-
-```bash
-脚本: "今天教大家如何部署OpenClaw。第一步安装Node.js。第二步配置API。第三步启动网关。是不是很简单？关注我学更多。"
-声音: alloy
-语速: 1.0
-时长: 15 秒
-效果: ⭐⭐⭐⭐
-```
-
-## 💬 获得帮助
-
-- 查看文档：`docs/`
-- 运行测试：`./agents/test-agent.sh`
-- 使用帮助：`./agents/video-cli.sh help`
+- 阅读 [完整文档](README.md)
+- 查看 [会议管理指南](docs/MEETING-GUIDE.md)
+- 了解 [纪要撰写规范](docs/MINUTES-GUIDE.md)
+- 探索 [视频汇报功能](docs/VIDEO-GUIDE.md)
 
 ---
 
-**开始创作你的第一个 AI 视频吧！** 🚀🎬✨
+**5 分钟上手，让董事会治理更专业！**

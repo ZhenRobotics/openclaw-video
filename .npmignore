@@ -1,17 +1,54 @@
+# .npmignore for OpenClaw Company Secretary
+# Excludes files that should not be published to npm
+
 # Development files
 node_modules/
 .git/
 .github/
 .vscode/
 .idea/
+.editorconfig
+.eslintrc*
+.prettierrc*
+tsconfig.json
 
-# Test and output files
-out/
-*.log
+# Test files
+test/
+tests/
+__tests__/
+*.test.ts
+*.test.js
+*.spec.ts
+*.spec.js
 coverage/
 .nyc_output/
 
-# Documentation (keep only essential)
+# Output and temporary files
+out/
+data/
+*.log
+*.tmp
+*.swp
+*~
+.cache/
+
+# Documentation (keep only essential for npm)
+# Keep: README.md, QUICKSTART.md, CHANGELOG.md, LICENSE
+docs/
+*.md
+!README.md
+!QUICKSTART.md
+!CHANGELOG.md
+!LICENSE.md
+
+# Transformation documentation (not needed in npm package)
+TRANSFORMATION*.md
+转型*.md
+NAMING_CONVENTION.md
+PUBLISHING_CHECKLIST.md
+test-transformation.sh
+
+# Legacy documentation
 OPTIMIZATION.md
 TEST-REPORT*.md
 ENGLISH-VERSION-UPDATE.md
@@ -22,14 +59,23 @@ INSTALLATION-TEST-REPORT.md
 PUBLISHING-PLATFORMS.md
 RELEASE-v*.md
 RELEASE_NOTES_v*.md
+RELEASE_CHECKLIST*.md
+RELEASE_COMPLETE*.md
 BACKGROUND_VIDEO_FEATURE.md
 GITHUB_RELEASE_GUIDE.md
+GITHUB_RELEASE_CONTENT.md
+DELIVERY.md
+INTEGRATION_COMPLETE.md
+PROJECT_SUMMARY.md
+PROJECT_STATUS.md
 优化完成总结.md
 发布说明.md
 
 # Build artifacts
 dist/
 build/
+lib/
+*.tsbuildinfo
 
 # Environment and config
 .env
@@ -39,11 +85,6 @@ build/
 # OS files
 .DS_Store
 Thumbs.db
-
-# Temporary files
-*.tmp
-*.swp
-*~
 
 # Claude workspace
 .claude/
@@ -55,16 +96,31 @@ openclaw-video/
 pnpm-lock.yaml
 yarn.lock
 
-# Legacy files
-DELIVERY.md
-INTEGRATION_COMPLETE.md
-PROJECT_SUMMARY.md
-
 # Test files and generated content
 public/*.mp3
 public/*.mp4
 public/backgrounds/
 audio/*.mp3
+audio/example-script.mp3
 scripts/tmp-*.txt
 scripts/pseudo-*.js
 load-env.sh
+npm-publish-commands.sh
+publish-now.sh
+PUBLISH_NOW.txt
+
+# Release preparation files
+RELEASE_READINESS_REPORT.md
+fix-for-release.sh
+命名与发布确认.md
+
+# Examples (optional - uncomment to exclude)
+# examples/
+
+# Keep these important files
+!README.md
+!LICENSE
+!CHANGELOG.md
+!QUICKSTART.md
+!package.json
+!clawhub.yaml

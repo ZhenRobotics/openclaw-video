@@ -1,6 +1,6 @@
 import { Composition } from 'remotion';
-import { CyberWireframe } from './CyberWireframe';
-import { videoConfig } from './scenes-data';
+import { CyberWireframe } from './CyberWireframe.js';
+import { videoConfig } from './scenes-data.js';
 
 export const RemotionRoot: React.FC = () => {
   return (

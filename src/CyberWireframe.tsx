@@ -8,8 +8,8 @@ import {
   Video,
   staticFile,
 } from 'remotion';
-import { scenes, videoConfig } from './scenes-data';
-import { SceneRenderer } from './SceneRenderer';
+import { scenes, videoConfig } from './scenes-data.js';
+import { SceneRenderer } from './SceneRenderer.js';
 
 export const CyberWireframe: React.FC<{
   audioPath?: string;

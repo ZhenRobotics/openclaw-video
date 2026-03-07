@@ -1,56 +1,69 @@
 {
-  "name": "openclaw-video-generator",
-  "version": "1.2.0",
-  "description": "Automated video generation pipeline with OpenAI TTS, Whisper, and Remotion - from text script to professional short videos",
-  "main": "src/index.ts",
+  "name": "openclaw-company-secretary",
+  "version": "2.0.0",
+  "description": "AI-powered Company Secretary assistant for board meeting management, minute generation, resolution tracking, and video reporting",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
   "bin": {
-    "openclaw-video-generator": "./agents/video-cli.sh",
-    "openclaw-video": "./agents/video-cli.sh"
+    "company-secretary": "./cli/secretary-cli.sh",
+    "board-secretary": "./cli/secretary-cli.sh"
   },
   "files": [
+    "dist/",
     "src/",
-    "agents/",
+    "cli/",
     "scripts/",
-    "public/",
     "docs/",
-    "audio/example-timestamps.json",
     "remotion.config.ts",
-    "tsconfig.json",
     "README.md",
     "LICENSE",
+    "CHANGELOG.md",
     "QUICKSTART.md",
-    "generate-for-openclaw.sh"
+    "clawhub.yaml"
   ],
   "scripts": {
     "dev": "remotion studio",
-    "build": "remotion render",
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "rm -rf dist",
+    "prebuild": "npm run clean",
     "render": "remotion render Main out/video.mp4",
-    "prepublishOnly": "echo 'Publishing openclaw-video...'",
-    "postinstall": "echo 'Thanks for installing openclaw-video! Run: openclaw-video help'"
+    "secretary": "./cli/secretary-cli.sh",
+    "dashboard": "./cli/secretary-cli.sh dashboard",
+    "test": "node -r ts-node/register src/__tests__/index.test.ts",
+    "prepublishOnly": "npm run build",
+    "postinstall": "chmod +x cli/secretary-cli.sh 2>/dev/null || true"
   },
   "keywords": [
-    "video-generation",
-    "remotion",
-    "openai",
-    "tts",
-    "whisper",
-    "automation",
-    "video-editing",
-    "ai-video",
+    "company-secretary",
+    "board-meeting",
+    "meeting-minutes",
+    "corporate-governance",
+    "resolution-tracking",
+    "action-items",
+    "compliance",
+    "board-management",
+    "ai-assistant",
     "openclaw",
-    "short-video",
-    "text-to-video"
+    "meeting-management",
+    "video-reporting"
   ],
   "author": "justin",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ZhenRobotics/openclaw-video-generator.git"
+    "url": "https://github.com/ZhenRobotics/openclaw-company-secretary.git"
   },
   "bugs": {
-    "url": "https://github.com/ZhenRobotics/openclaw-video-generator/issues"
+    "url": "https://github.com/ZhenRobotics/openclaw-company-secretary/issues"
   },
-  "homepage": "https://github.com/ZhenRobotics/openclaw-video-generator#readme",
+  "homepage": "https://github.com/ZhenRobotics/openclaw-company-secretary#readme",
   "dependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

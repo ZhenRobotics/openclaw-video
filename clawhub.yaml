@@ -1,0 +1,133 @@
+# ClawHub Skill Configuration for OpenClaw Company Secretary
+
+name: company-secretary
+displayName: OpenClaw 董事会秘书
+version: 2.0.0
+author: ZhenStaff
+
+description: |
+  AI 驱动的董事会秘书助手，支持会议管理、纪要生成、
+  决议跟踪和行动项管理。保留完整的视频汇报能力。
+
+  核心功能：
+  - 📋 会议管理系统 - 完整的董事会会议生命周期管理
+  - 🤖 智能纪要生成 - GPT-4 驱动的自动会议纪要
+  - ✅ 决议跟踪与提醒 - 决议执行状态全程跟踪
+  - 🎯 行动项管理 - 任务分配、进度跟踪
+  - 🎥 视频汇报生成 - 董事会决议和业绩汇报视频
+
+category: productivity
+subcategory: governance
+license: MIT
+
+tags:
+  - company-secretary
+  - board-meeting
+  - corporate-governance
+  - meeting-management
+  - ai-assistant
+  - meeting-minutes
+  - resolution-tracking
+  - business-tools
+
+# 执行入口
+entrypoint: ./cli/secretary-cli.sh
+
+# 运行要求
+requirements:
+  node: ">=18.0.0"
+  npm: ">=8.0.0"
+
+# 环境变量
+env:
+  - name: OPENAI_API_KEY
+    description: OpenAI API Key for AI-powered minutes generation and video TTS
+    required: false
+    default: ""
+
+# 功能声明
+capabilities:
+  - meeting-management      # 会议管理
+  - minutes-generation      # 纪要生成
+  - resolution-tracking     # 决议跟踪
+  - action-tracking         # 行动项跟踪
+  - video-reporting         # 视频汇报
+  - ai-powered             # AI 能力
+  - cli-tool               # 命令行工具
+
+# 使用示例
+examples:
+  - name: 查看工作台
+    command: company-secretary dashboard
+    description: 显示即将到来的会议、待处理决议、逾期提醒等
+
+  - name: 创建董事会会议
+    command: company-secretary meeting create --date "2026-03-15" --type "regular" --title "第一季度董事会"
+    description: 创建新的董事会会议，支持多种会议类型
+
+  - name: 生成会议纪要
+    command: company-secretary minutes generate --meeting-id "2026-Q1-01" --template standard
+    description: 使用 AI 自动生成标准格式的会议纪要
+
+  - name: 记录决议
+    command: company-secretary resolution create --meeting-id "2026-Q1-01" --title "批准2025年度财务报告" --voting "8:0:0"
+    description: 记录董事会决议和表决结果
+
+  - name: 创建行动项
+    command: company-secretary action create --meeting-id "2026-Q1-01" --task "准备Q1经营分析报告" --assignee "CEO" --deadline "2026-03-30" --priority high
+    description: 分配行动项任务并设置优先级
+
+  - name: 列出待办事项
+    command: company-secretary action list --assignee "CEO" --status pending
+    description: 查看特定负责人的待处理行动项
+
+  - name: 生成汇报视频
+    command: company-secretary video generate --script "Q1营收增长45%。净利润增长60%。" --voice nova
+    description: 生成董事会汇报视频（保留的视频功能）
+
+# Agent 集成示例
+agent_examples:
+  - query: "帮我准备明天的董事会会议"
+    description: Agent 会自动创建会议、准备议程模板
+
+  - query: "生成上次董事会的会议纪要"
+    description: Agent 会查找最近的会议并生成纪要
+
+  - query: "检查我的待办行动项"
+    description: Agent 会列出当前用户的待处理任务
+
+# 链接
+homepage: https://github.com/ZhenRobotics/openclaw-company-secretary
+documentation: https://github.com/ZhenRobotics/openclaw-company-secretary#readme
+repository: https://github.com/ZhenRobotics/openclaw-company-secretary
+quickstart: https://github.com/ZhenRobotics/openclaw-company-secretary/blob/main/QUICKSTART.md
+
+# 支持
+support:
+  issues: https://github.com/ZhenRobotics/openclaw-company-secretary/issues
+  discussions: https://github.com/ZhenRobotics/openclaw-company-secretary/discussions
+
+# 截图（如有）
+screenshots:
+  - url: https://example.com/screenshots/dashboard.png
+    caption: 工作台概览
+  - url: https://example.com/screenshots/meeting.png
+    caption: 会议管理界面
+
+# 贡献者
+contributors:
+  - name: justin
+    role: Author
+    github: ZhenRobotics
+
+# 更新日志
+changelog:
+  - version: 2.0.0
+    date: 2026-03-08
+    changes:
+      - 从视频生成工具转型为董事会秘书助手
+      - 新增会议管理系统
+      - 新增智能纪要生成
+      - 新增决议跟踪器
+      - 新增行动项管理
+      - 保留完整视频生成能力

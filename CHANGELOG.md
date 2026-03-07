@@ -1,9 +1,145 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to OpenClaw Company Secretary will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [2.0.0] - 2026-03-08
+
+### 🎉 Major Transformation
+
+Project successfully transformed from **openclaw-video-generator** to **openclaw-company-secretary**
+
+**Positioning Change**:
+- From: Automated short video generation tool
+- To: AI-powered Company Secretary assistant
+
+### ✨ New Features
+
+#### Core Modules
+
+- **Meeting Management System** (`MeetingManager`)
+  - Create and manage board meetings (regular/special/annual/audit committee)
+  - Attendee management and check-in
+  - Agenda creation and tracking
+  - Meeting workflow control (scheduled → in-progress → completed)
+  - Quorum checking
+  - Meeting transcript recording
+
+- **Minutes Generator** (`MinutesGenerator`)
+  - AI-powered automatic minutes generation (GPT-4)
+  - Multiple templates (standard/annual/special/audit)
+  - Automatic key information extraction
+  - Export to Markdown and JSON formats
+  - Structured sections
+
+- **Resolution Tracker** (`ResolutionTracker`)
+  - Resolution creation and voting record
+  - Multiple resolution types (financial/strategic/personnel/investment/compliance)
+  - Full execution status tracking
+  - Overdue checking and reminders
+  - Statistics and analytics
+
+- **Action Item Tracker** (`ActionTracker`)
+  - Task creation and assignment
+  - Real-time progress tracking (0-100%)
+  - Priority management (high/medium/low)
+  - Overdue checking
+  - Multi-dimensional viewing
+
+#### CLI Tools
+
+New command-line interface with 6 subcommands:
+
+- `company-secretary meeting` - Meeting management
+- `company-secretary minutes` - Minutes generation
+- `company-secretary resolution` - Resolution management
+- `company-secretary action` - Action item management
+- `company-secretary video` - Video reporting (preserved)
+- `company-secretary dashboard` - Dashboard overview
+
+#### TypeScript API
+
+Complete programming interface:
+
+```typescript
+import { CompanySecretary } from 'openclaw-company-secretary';
+
+const secretary = new CompanySecretary();
+const meeting = secretary.meetings.createMeeting({...});
+const minutes = await secretary.generateMinutes(meeting.id);
+```
+
+#### Data Management
+
+- Local JSON file storage
+- Automatic data persistence
+- Import/export backup support
+- Minutes saved in both JSON and Markdown formats
+
+### 🎥 Preserved Features
+
+Original video generation capabilities **100% preserved**, now serving as board reporting tool:
+
+- Video generation pipeline (`scripts/script-to-video.sh`)
+- OpenAI TTS voice generation
+- OpenAI Whisper audio transcription
+- Remotion video rendering
+- Scene orchestration and animation effects
+
+**New video use cases**:
+- Resolution announcement videos
+- Investor update videos
+- Board summary videos
+- Compliance disclosure videos
+
+### 📚 Documentation
+
+- Complete rewrite of `README.md`
+- Rewrite of `QUICKSTART.md` - 5-minute quick start guide
+- New `TRANSFORMATION.md` - Detailed transformation documentation
+- New `TRANSFORMATION_SUMMARY.md` - Transformation summary
+- New `NAMING_CONVENTION.md` - Naming conventions
+- New `PUBLISHING_CHECKLIST.md` - Publishing checklist
+- New `examples/basic-usage.ts` - Complete usage example
+
+### 🏗️ Architecture
+
+New project structure:
+
+```
+src/
+├── company-secretary.ts       # Main class
+├── secretary-types.ts         # Type definitions
+├── core/                      # Core modules
+│   ├── meeting-manager.ts
+│   ├── minutes-generator.ts
+│   ├── resolution-tracker.ts
+│   └── action-tracker.ts
+└── utils/                     # Utility functions
+    └── helpers.ts
+
+cli/                          # CLI tools
+├── secretary-cli.sh
+└── commands/
+```
+
+### 📦 Package Information
+
+- Package name: `openclaw-company-secretary`
+- CLI command: `company-secretary`
+- Main class: `CompanySecretary`
+- Version: `2.0.0`
+
+### 🎯 Use Cases
+
+- Startup board meetings - Lightweight meeting management
+- Growing companies - Standardized governance processes
+- Public companies - Compliance management and disclosure
+- AI Agent integration - Used as a skill
+
+---
 
 ## [1.1.0] - 2026-03-05
 
