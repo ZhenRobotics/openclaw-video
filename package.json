@@ -44,12 +44,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ZhenRobotics/openclaw-video.git"
+    "url": "https://github.com/ZhenRobotics/openclaw-video-generator.git"
   },
   "bugs": {
-    "url": "https://github.com/ZhenRobotics/openclaw-video/issues"
+    "url": "https://github.com/ZhenRobotics/openclaw-video-generator/issues"
   },
-  "homepage": "https://github.com/ZhenRobotics/openclaw-video#readme",
+  "homepage": "https://github.com/ZhenRobotics/openclaw-video-generator#readme",
   "dependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

@@ -13,13 +13,17 @@ coverage/
 
 # Documentation (keep only essential)
 OPTIMIZATION.md
-TEST-REPORT.md
+TEST-REPORT*.md
 ENGLISH-VERSION-UPDATE.md
 CLI-BUG-SOLUTION.md
 CLAWHUB-UPLOAD-GUIDE.md
+CLAWHUB_UPLOAD*.md
 INSTALLATION-TEST-REPORT.md
 PUBLISHING-PLATFORMS.md
-RELEASE-v1.0.1.md
+RELEASE-v*.md
+RELEASE_NOTES_v*.md
+BACKGROUND_VIDEO_FEATURE.md
+GITHUB_RELEASE_GUIDE.md
 优化完成总结.md
 发布说明.md
 
@@ -55,3 +59,12 @@ yarn.lock
 DELIVERY.md
 INTEGRATION_COMPLETE.md
 PROJECT_SUMMARY.md
+
+# Test files and generated content
+public/*.mp3
+public/*.mp4
+public/backgrounds/
+audio/*.mp3
+scripts/tmp-*.txt
+scripts/pseudo-*.js
+load-env.sh
