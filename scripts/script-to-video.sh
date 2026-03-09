@@ -4,6 +4,13 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
+# Load environment variables from .env
+if [[ -f .env ]]; then
+  set -a
+  source .env
+  set +a
+fi
+
 usage() {
   cat >&2 <<'EOF'
 Usage:
@@ -130,8 +137,10 @@ echo ""
 
 # Step 5: Render video
 echo "Step 5/5: Rendering video with Remotion..."
+# Pass only the filename (audio is already copied to public/)
+audio_filename=$(basename "$audio_file")
 pnpm exec remotion render Main "$output_video" \
-  --props "{\"audioPath\": \"${PWD}/${audio_file}\"}"
+  --props "{\"audioPath\": \"${audio_filename}\"}"
 
 echo ""
 echo "=== ✅ Video Generation Complete ==="

@@ -1,22 +1,34 @@
 #!/usr/bin/env bash
-# Extract timestamps from audio using OpenAI Whisper API
+# Extract timestamps from audio using multi-provider ASR
 set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+# Load provider utils
+source scripts/providers/utils.sh
+load_env
 
 usage() {
   cat >&2 <<'EOF'
 Usage:
-  whisper-timestamps.sh <audio-file> [--out /path/to/timestamps.json]
+  whisper-timestamps.sh <audio.mp3> [--out timestamps.json] [--lang zh] [--provider openai]
 
-Example:
-  whisper-timestamps.sh audio.mp3
-  whisper-timestamps.sh audio.mp3 --out timestamps.json
+Options:
+  --out <file>         Output JSON file (default: <audio>-timestamps.json)
+  --lang <code>        Language code (zh, en, etc., default: zh)
+  --provider <name>    Force specific provider (openai, azure, aliyun, tencent)
+                       If not specified, will try providers in order from ASR_PROVIDERS
 
-Output format:
-  [
-    {"start": 0.0, "end": 3.46, "text": "三家巨头同一天说了一件事"},
-    {"start": 3.46, "end": 5.90, "text": "微软说Copilot已经能写掉90%的代码"},
-    ...
-  ]
+Examples:
+  whisper-timestamps.sh audio/speech.mp3
+  whisper-timestamps.sh audio/speech.mp3 --out custom.json --lang en
+  whisper-timestamps.sh audio/speech.mp3 --provider azure
+
+Available Providers:
+  openai  - Whisper API (highest accuracy)
+  azure   - Azure Speech-to-Text
+  aliyun  - Aliyun ASR
+  tencent - Tencent ASR
 EOF
   exit 2
 }
@@ -28,12 +40,28 @@ fi
 in="${1:-}"
 shift || true
 
-out=""
+if [[ ! -f "$in" ]]; then
+  echo "Error: Audio file not found: $in" >&2
+  exit 1
+fi
+
+# Default output: replace .mp3 with -timestamps.json
+out="${in%.mp3}-timestamps.json"
+language="zh"
+provider=""
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --out)
       out="${2:-}"
+      shift 2
+      ;;
+    --lang)
+      language="${2:-}"
+      shift 2
+      ;;
+    --provider)
+      provider="${2:-}"
       shift 2
       ;;
     *)
@@ -43,65 +71,66 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [[ ! -f "$in" ]]; then
-  echo "File not found: $in" >&2
-  exit 1
-fi
-
-if [[ "${OPENAI_API_KEY:-}" == "" ]]; then
-  echo "Missing OPENAI_API_KEY" >&2
-  exit 1
-fi
-
-if [[ "$out" == "" ]]; then
-  base="${in%.*}"
-  out="${base}-timestamps.json"
-fi
-
 mkdir -p "$(dirname "$out")"
 
-# Call OpenAI Whisper API with verbose_json format to get timestamps
-# Specify language=zh for Chinese to ensure accurate transcription
-echo "Transcribing with timestamps (Chinese)..." >&2
-# Use custom API base if set, otherwise use OpenAI
-api_base="${OPENAI_API_BASE:-https://api.openai.com/v1}"
+echo "Transcribing with timestamps ($language)..." >&2
 
-# Retry logic for unstable networks
-max_retries=3
-retry_count=0
-tmp_response="/tmp/whisper_response_$$.json"
+# If provider is specified, use it directly
+if [[ -n "$provider" ]]; then
+  echo "  Provider: $provider (forced)" >&2
 
-while [[ $retry_count -lt $max_retries ]]; do
-  if curl -sS "${api_base}/audio/transcriptions" \
-    -H "Authorization: Bearer $OPENAI_API_KEY" \
-    -H "Accept: application/json" \
-    -F "file=@${in}" \
-    -F "model=gpt-4o-mini-transcribe" \
-    -F "language=zh" \
-    -F "response_format=verbose_json" \
-    -F "timestamp_granularities[]=segment" \
-    > "$tmp_response" 2>&1; then
-
-    # Check if response is valid JSON with segments
-    if jq -e '.segments' "$tmp_response" > /dev/null 2>&1; then
-      jq '[.segments[] | {start: .start, end: .end, text: .text}]' "$tmp_response" > "$out"
-      rm -f "$tmp_response"
-      break
-    fi
+  provider_script="scripts/providers/asr/${provider}.sh"
+  if [[ ! -f "$provider_script" ]]; then
+    echo "Error: Provider script not found: $provider_script" >&2
+    exit 1
   fi
 
-  retry_count=$((retry_count + 1))
-  if [[ $retry_count -lt $max_retries ]]; then
-    echo "⚠️  Attempt $retry_count failed, retrying in 3s..." >&2
-    sleep 3
+  if ! is_provider_configured "$provider" "asr"; then
+    echo "Error: Provider '$provider' is not configured" >&2
+    echo "Please check your .env file" >&2
+    exit 1
+  fi
+
+  if bash "$provider_script" "$in" "$out" "$language"; then
+    echo "Timestamps saved to: $out" >&2
+    echo "$out"
+    exit 0
+  else
+    echo "❌ Failed to transcribe with provider: $provider" >&2
+    exit 1
+  fi
+fi
+
+# Otherwise, try providers in order with automatic fallback
+providers=$(get_providers "asr")
+echo "  Providers: $providers (auto-fallback)" >&2
+
+IFS=',' read -ra PROVIDER_ARRAY <<< "$providers"
+
+for p in "${PROVIDER_ARRAY[@]}"; do
+  p=$(echo "$p" | xargs)  # trim whitespace
+
+  if ! is_provider_configured "$p" "asr"; then
+    echo "⚠️  Provider '$p' not configured, skipping..." >&2
+    continue
+  fi
+
+  echo "🔄 Trying provider: $p" >&2
+
+  provider_script="scripts/providers/asr/${p}.sh"
+  if [[ -f "$provider_script" ]]; then
+    if bash "$provider_script" "$in" "$out" "$language"; then
+      echo "Timestamps saved to: $out" >&2
+      echo "✅ Used provider: $p" >&2
+      echo "$out"
+      exit 0
+    else
+      echo "❌ Provider '$p' failed, trying next..." >&2
+    fi
+  else
+    echo "⚠️  Provider script not found: $provider_script" >&2
   fi
 done
 
-if [[ $retry_count -eq $max_retries ]]; then
-  echo "❌ Failed after $max_retries attempts" >&2
-  rm -f "$tmp_response"
-  exit 1
-fi
-
-echo "Timestamps saved to: $out" >&2
-echo "$out"
+echo "❌ All ASR providers failed" >&2
+exit 1
