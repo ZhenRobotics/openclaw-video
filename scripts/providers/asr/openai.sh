@@ -44,9 +44,11 @@ for i in $(seq 1 $max_retries); do
     > "$tmp_response" 2>&1; then
 
     if [[ -s "$tmp_response" ]]; then
-      # Check if response is valid JSON
+      # Check if response is valid JSON and extract segments
       if jq empty "$tmp_response" 2>/dev/null; then
-        mv "$tmp_response" "$output"
+        # Extract segments array and convert to expected format
+        jq '[.segments[] | {start: .start, end: .end, text: .text}]' "$tmp_response" > "$output"
+        rm -f "$tmp_response"
         echo "✅ OpenAI Whisper: Transcribed $audio" >&2
         exit 0
       fi
