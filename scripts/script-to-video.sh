@@ -20,8 +20,8 @@ Options:
   --voice <name>           TTS voice (alloy/echo/nova/shimmer, default: nova)
   --speed <number>         TTS speed (0.25-4.0, default: 1.15)
   --bg-video <file>        Background video file path
-  --bg-opacity <number>    Background video opacity (0-1, default: 0.3)
-  --bg-overlay <color>     Background overlay color (default: rgba(10, 10, 15, 0.6))
+  --bg-opacity <number>    Background video opacity (0-1, default: 0.7)
+  --bg-overlay <color>     Background overlay color (default: rgba(10, 10, 15, 0.25))
 
 Examples:
   script-to-video.sh scripts/example-script.txt
@@ -55,8 +55,8 @@ shift || true
 voice="nova"
 speed="1.15"
 bg_video=""
-bg_opacity="0.3"
-bg_overlay="rgba(10, 10, 15, 0.6)"
+bg_opacity="0.7"
+bg_overlay="rgba(10, 10, 15, 0.25)"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in

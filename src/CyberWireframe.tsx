@@ -24,8 +24,8 @@ export const CyberWireframe: React.FC<{
   // Use prop values if provided, otherwise fall back to videoConfig
   const finalAudioPath = audioPath || videoConfig.audioPath;
   const finalBgVideo = bgVideo || videoConfig.bgVideo;
-  const finalBgOpacity = bgOpacity !== undefined ? bgOpacity : (videoConfig.bgOpacity ?? 0.3);
-  const finalBgOverlayColor = bgOverlayColor || videoConfig.bgOverlayColor || 'rgba(10, 10, 15, 0.6)';
+  const finalBgOpacity = bgOpacity !== undefined ? bgOpacity : (videoConfig.bgOpacity ?? 0.7);
+  const finalBgOverlayColor = bgOverlayColor || videoConfig.bgOverlayColor || 'rgba(10, 10, 15, 0.25)';
 
   return (
     <AbsoluteFill
