@@ -139,8 +139,21 @@ echo ""
 echo "Step 5/5: Rendering video with Remotion..."
 # Pass only the filename (audio is already copied to public/)
 audio_filename=$(basename "$audio_file")
+
+# Clean audio_filename from potential OpenClaw executor pollution
+# Remove patterns like ",timeout:1200}" that may be appended
+audio_filename_clean=$(echo "$audio_filename" | sed -E 's/,\s*(timeout|maxTokens|temperature|metadata)[:\s]*[^}]*}?\s*$//')
+
+# Build props JSON (ensuring clean parameters)
+props_json="{\"audioPath\": \"${audio_filename_clean}\"}"
+
+# Double-check for trailing commas or invalid JSON
+props_json=$(echo "$props_json" | sed -E 's/,\s*}$/}/')
+
+echo "[Debug] Remotion props: $props_json" >&2
+
 pnpm exec remotion render Main "$output_video" \
-  --props "{\"audioPath\": \"${audio_filename}\"}"
+  --props "$props_json"
 
 echo ""
 echo "=== ✅ Video Generation Complete ==="
