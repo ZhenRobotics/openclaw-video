@@ -31,7 +31,7 @@ export const SceneRenderer: React.FC<SceneRendererProps> = ({ scene }) => {
   const animation = getAnimation();
 
   return (
-    <AbsoluteFill style={{ justifyContent: 'center', alignItems: 'center' }}>
+    <AbsoluteFill style={{ justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 150 }}>
       {/* Scene-specific background video (overrides global background) */}
       {scene.bgVideo && (
         <>
@@ -53,22 +53,44 @@ export const SceneRenderer: React.FC<SceneRendererProps> = ({ scene }) => {
         </>
       )}
 
-      {/* Main title */}
+      {/* Main title with background bar */}
       <div
         style={{
-          fontSize: 80,
-          fontWeight: 'bold',
-          color: scene.color || '#FFFFFF',
-          textAlign: 'center',
-          whiteSpace: 'pre-line',
-          transform: `scale(${animation.scale}) translateY(${animation.translateY}px)`,
-          opacity: animation.opacity,
-          textShadow: scene.type === 'title' ? animation.glitch : '0 4px 8px rgba(0,0,0,0.5)',
           position: 'relative',
+          padding: '15px 50px',
+          background: 'linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0.85), rgba(0,0,0,0.6))',
+          borderRadius: 12,
+          backdropFilter: 'blur(10px)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
           zIndex: 2,
+          maxWidth: '90%',
         }}
       >
-        {highlightText(scene.title, scene.highlight)}
+        <div
+          style={{
+            fontSize: 80,
+            fontWeight: 'bold',
+            color: scene.color || '#FFFFFF',
+            textAlign: 'center',
+            whiteSpace: 'pre-line',
+            transform: `scale(${animation.scale}) translateY(${animation.translateY}px)`,
+            opacity: animation.opacity,
+            textShadow: scene.type === 'title'
+              ? animation.glitch
+              : `
+                0 0 10px rgba(0, 255, 255, 0.4),
+                0 0 20px rgba(0, 255, 255, 0.2),
+                0 4px 10px rgba(0, 0, 0, 0.9),
+                -2px -2px 0 rgba(0, 0, 0, 0.8),
+                2px -2px 0 rgba(0, 0, 0, 0.8),
+                -2px 2px 0 rgba(0, 0, 0, 0.8),
+                2px 2px 0 rgba(0, 0, 0, 0.8)
+              `,
+            lineHeight: 1.2,
+          }}
+        >
+          {highlightText(scene.title, scene.highlight)}
+        </div>
       </div>
 
       {/* Subtitle */}
@@ -165,7 +187,7 @@ function getCircleAnimation(frame: number, fps: number) {
 function getContentAnimation(frame: number, fps: number) {
   return {
     scale: 1,
-    translateY: 0,
+    translateY: interpolate(frame, [0, 20], [80, 0], { extrapolateRight: 'clamp' }),  // Slide up from bottom
     opacity: interpolate(frame, [0, 15], [0, 1], { extrapolateRight: 'clamp' }),
     glitch: '',
   };
