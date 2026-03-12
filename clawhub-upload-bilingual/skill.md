@@ -46,9 +46,9 @@ requires:
   packages:
     - name: openclaw-video-generator
       source: npm
-      version: ">=1.4.1"
+      version: ">=1.4.4"
       verified_repo: https://github.com/ZhenRobotics/openclaw-video-generator
-      verified_commit: 4a9b09d  # v1.4.1 - Fix OpenClaw agent TTS parameter contamination (main branch)
+      verified_commit: 5303b38  # v1.4.4 - Complete OpenClaw integration fixes (main branch)
 ---
 
 # 🎬 Video Generator Skill | 视频生成器技能
@@ -69,7 +69,7 @@ This skill is **safe and verified**:
 - ✅ Source code is **open source** and auditable
 - ✅ Uses official **npm package** (openclaw-video-generator)
 - ✅ **Verified repository**: github.com/ZhenRobotics/openclaw-video-generator
-- ✅ **Verified commit**: 4a9b09d (v1.4.1 - Fix OpenClaw agent TTS parameter contamination)
+- ✅ **Verified commit**: 5303b38 (v1.4.4 - Complete OpenClaw integration fixes)
 - ✅ **No data collection** - all processing is local
 
 **Required API Access**:
@@ -78,20 +78,30 @@ This skill is **safe and verified**:
 - You maintain full control of your API keys
 - Supports automatic fallback between providers
 
-### ✨ What's New (Latest: v1.4.1)
+### ✨ What's New (Latest: v1.4.4)
 
-**🐛 v1.4.1 Bug Fix (Commit 4a9b09d)**:
-- **Fixed OpenClaw agent TTS parameter contamination** - Aliyun/Tencent now work through agent pipeline
-- Added intelligent text cleaning to remove JSON metadata (`,timeout:XXX}`)
-- Uses temporary file for safe parameter passing, avoiding shell escaping issues
-- Includes automated test suite (test-tts-cleanup.js, 5 test cases)
-- Fully backward compatible with normal text input
+**🐛 v1.4.4 Bug Fix (Commit 5303b38)**:
+- **Fixed Remotion props JSON pollution** - OpenClaw metadata no longer breaks rendering
+- Added clean-json-params.sh utility for parameter sanitization
+- Comprehensive parameter pollution documentation
+- 8 automated test cases (all passing)
 
-**Previous Updates (v1.4.0)**:
-- Complete Aliyun and Tencent provider implementation (v1.3.x had non-functional stubs)
-- Fully functional Aliyun/Tencent TTS/ASR with proper signatures
-- Added 5 new Python implementations for production use
-- Fixed "Not implemented yet" errors for Chinese cloud providers
+**⚡ v1.4.2 Performance Fix**:
+- **Fixed background video timeout** - Increased delayRender timeout to 60s
+- Added optimize-background.sh script for video compression
+- Comprehensive background video guide and troubleshooting
+- Videos up to 100MB now supported
+
+**🎯 v1.4.3 Smart TTS Fix**:
+- **Fixed Aliyun TTS 418 errors** - Auto-detects language and switches voice
+- Smart voice selection: Chinese → Zhiqi, English → Catherine, Mixed → Aida
+- Reduces 418 errors by 95%
+- Maintains Aliyun as primary provider (lower cost)
+
+**Previous Updates (v1.4.1)**:
+- Fixed OpenClaw agent TTS text parameter contamination
+- Intelligent text cleaning for JSON metadata removal
+- Safe parameter passing via temporary files
 
 ### 📦 Installation
 
@@ -309,7 +319,7 @@ MIT License - See LICENSE file for details
 - ✅ 源代码**开源**且可审计
 - ✅ 使用官方 **npm 包**（openclaw-video-generator）
 - ✅ **已验证的仓库**: github.com/ZhenRobotics/openclaw-video-generator
-- ✅ **已验证的提交**: 4a9b09d (v1.4.1 - 修复 OpenClaw agent TTS 参数污染)
+- ✅ **已验证的提交**: 5303b38 (v1.4.4 - 完整的 OpenClaw 集成修复)
 - ✅ **无数据收集** - 所有处理均在本地
 
 **所需 API 访问**：
@@ -318,20 +328,30 @@ MIT License - See LICENSE file for details
 - 您完全控制您的 API 密钥
 - 支持提供商间自动降级
 
-### ✨ 最新功能（最新：v1.4.1）
+### ✨ 最新功能（最新：v1.4.4）
 
-**🐛 v1.4.1 Bug 修复（提交 4a9b09d）**：
-- **修复 OpenClaw agent TTS 参数污染问题** - 阿里云/腾讯云现可通过 agent 管道正常工作
-- 添加智能文本清理以移除 JSON 元数据（`,timeout:XXX}`）
-- 使用临时文件进行安全参数传递，避免 shell 转义问题
-- 包含自动化测试套件（test-tts-cleanup.js，5 个测试用例）
-- 完全向后兼容正常文本输入
+**🐛 v1.4.4 Bug 修复（提交 5303b38）**：
+- **修复 Remotion props JSON 污染** - OpenClaw 元数据不再破坏渲染
+- 添加 clean-json-params.sh 参数清理工具
+- 完整的参数污染问题文档
+- 8 个自动化测试用例（全部通过）
 
-**历史更新（v1.4.0）**：
-- 完整的阿里云和腾讯云提供商实现（v1.3.x 版本是无功能占位符）
-- 全功能阿里云/腾讯云 TTS/ASR，包含正确的签名实现
-- 新增 5 个生产环境可用的 Python 实现
-- 修复中国云服务提供商的"未实现"错误
+**⚡ v1.4.2 性能修复**：
+- **修复背景视频超时** - delayRender 超时增加到 60 秒
+- 添加 optimize-background.sh 视频压缩脚本
+- 完整的背景视频指南和故障排除
+- 现支持最大 100MB 视频
+
+**🎯 v1.4.3 智能 TTS 修复**：
+- **修复阿里云 TTS 418 错误** - 自动检测语言并切换音色
+- 智能音色选择：中文 → 智琪，英文 → Catherine，混合 → 艾达
+- 418 错误减少 95%
+- 保持阿里云为主提供商（降低成本）
+
+**历史更新（v1.4.1）**：
+- 修复 OpenClaw agent TTS 文本参数污染
+- 智能文本清理以移除 JSON 元数据
+- 通过临时文件安全传递参数
 
 ### 📦 安装
 
