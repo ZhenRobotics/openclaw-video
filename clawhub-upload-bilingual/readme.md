@@ -10,24 +10,24 @@ Automated text-to-video generation system with multi-provider TTS/ASR support.
 
 ### Version
 
-**Current Version**: v1.4.0
-**Latest Commit**: 8d86054 (main branch)
+**Current Version**: v1.4.1
+**Latest Commit**: 4a9b09d (main branch)
 **Release Date**: 2026-03-12
 
 ### What's New (Latest)
 
-#### 🚨 v1.4.0 Critical Fix (Commit 8d86054)
-- **Complete Aliyun and Tencent provider implementation**: v1.3.x shipped with non-functional stubs
-- **Fully functional Aliyun TTS/ASR**: HMAC-SHA1 signature, token authentication, all voices supported
-- **Fully functional Tencent TTS/ASR**: API v3 signature, streaming recognition, precise timestamps
-- **5 new Python implementations**: Production-ready scripts for Chinese cloud providers
-- **Fixed "Not implemented yet" errors**: All provider stubs replaced with working implementations
+#### 🐛 v1.4.1 Bug Fix (Commit 4a9b09d)
+- **Fixed OpenClaw agent TTS parameter contamination**: Aliyun/Tencent now work through agent pipeline
+- **Intelligent text cleaning**: Removes JSON metadata (`,timeout:XXX}`) before TTS call
+- **Safe parameter passing**: Uses temporary file to avoid shell escaping issues
+- **Automated test suite**: test-tts-cleanup.js with 5 test cases (all passing)
+- **Fully backward compatible**: Normal text input works exactly as before
 
-#### Previous Updates (v1.3.1)
-- Fixed Aliyun ASR timestamp sync issue (0% error, was -75%)
-- Added smart text segmentation for Aliyun ASR (6+ segments vs 1)
-- Optimized default background parameters (+300% visibility)
-- Enhanced subtitle styles with neon glow and positioning
+#### Previous Updates (v1.4.0)
+- Complete Aliyun and Tencent provider implementation (v1.3.x had non-functional stubs)
+- Fully functional Aliyun/Tencent TTS/ASR with proper signatures
+- 5 new Python implementations for production use
+- Fixed "Not implemented yet" errors for Chinese cloud providers
 
 ### Features
 
@@ -194,24 +194,24 @@ For issues or questions:
 
 ### 版本
 
-**当前版本**: v1.4.0
-**最新提交**: 8d86054 (main 分支)
+**当前版本**: v1.4.1
+**最新提交**: 4a9b09d (main 分支)
 **发布日期**: 2026-03-12
 
 ### 最新功能
 
-#### 🚨 v1.4.0 重要修复（提交 8d86054）
-- **完整的阿里云和腾讯云提供商实现**：v1.3.x 版本发布的是无功能占位符
-- **全功能阿里云 TTS/ASR**：HMAC-SHA1 签名、令牌认证、支持所有音色
-- **全功能腾讯云 TTS/ASR**：API v3 签名、流式识别、精确时间戳
-- **新增 5 个 Python 实现**：中国云服务提供商的生产环境可用脚本
-- **修复"未实现"错误**：所有提供商占位符已替换为工作实现
+#### 🐛 v1.4.1 Bug 修复（提交 4a9b09d）
+- **修复 OpenClaw agent TTS 参数污染问题**：阿里云/腾讯云现可通过 agent 管道正常工作
+- **智能文本清理**：在 TTS 调用前移除 JSON 元数据（`,timeout:XXX}`）
+- **安全参数传递**：使用临时文件避免 shell 转义问题
+- **自动化测试套件**：test-tts-cleanup.js，包含 5 个测试用例（全部通过）
+- **完全向后兼容**：正常文本输入的工作方式与之前完全相同
 
-#### 历史更新（v1.3.1）
-- 修复阿里云 ASR 时间戳同步问题（误差从 -75% 降至 0%）
-- 为阿里云 ASR 添加智能文本分段（从 1 个片段提升到 6+ 个）
-- 优化默认背景参数（+300% 可见度）
-- 增强字幕样式，添加霓虹发光效果和定位优化
+#### 历史更新（v1.4.0）
+- 完整的阿里云和腾讯云提供商实现（v1.3.x 版本是无功能占位符）
+- 全功能阿里云/腾讯云 TTS/ASR，包含正确的签名实现
+- 新增 5 个生产环境可用的 Python 实现
+- 修复中国云服务提供商的"未实现"错误
 
 ### 功能特性
 
@@ -370,6 +370,6 @@ MIT License - 详见 LICENSE 文件
 
 ---
 
-**Version | 版本**: v1.4.0
+**Version | 版本**: v1.4.1
 **Last Updated | 最后更新**: 2026-03-12
 **Maintainer | 维护者**: ZhenStaff

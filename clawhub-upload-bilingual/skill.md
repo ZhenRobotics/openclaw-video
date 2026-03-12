@@ -46,9 +46,9 @@ requires:
   packages:
     - name: openclaw-video-generator
       source: npm
-      version: ">=1.4.0"
+      version: ">=1.4.1"
       verified_repo: https://github.com/ZhenRobotics/openclaw-video-generator
-      verified_commit: 8d86054  # v1.4.0 - Complete Aliyun/Tencent implementation (main branch)
+      verified_commit: 4a9b09d  # v1.4.1 - Fix OpenClaw agent TTS parameter contamination (main branch)
 ---
 
 # 🎬 Video Generator Skill | 视频生成器技能
@@ -69,7 +69,7 @@ This skill is **safe and verified**:
 - ✅ Source code is **open source** and auditable
 - ✅ Uses official **npm package** (openclaw-video-generator)
 - ✅ **Verified repository**: github.com/ZhenRobotics/openclaw-video-generator
-- ✅ **Verified commit**: 8d86054 (v1.4.0 - Complete Aliyun/Tencent implementation)
+- ✅ **Verified commit**: 4a9b09d (v1.4.1 - Fix OpenClaw agent TTS parameter contamination)
 - ✅ **No data collection** - all processing is local
 
 **Required API Access**:
@@ -78,20 +78,20 @@ This skill is **safe and verified**:
 - You maintain full control of your API keys
 - Supports automatic fallback between providers
 
-### ✨ What's New (Latest: v1.4.0)
+### ✨ What's New (Latest: v1.4.1)
 
-**🚨 v1.4.0 Critical Fix (Commit 8d86054)**:
-- **Complete Aliyun and Tencent provider implementation** - v1.3.x shipped with non-functional stubs
-- Fully functional Aliyun TTS/ASR with HMAC-SHA1 signature
-- Fully functional Tencent TTS/ASR with API v3 signature
+**🐛 v1.4.1 Bug Fix (Commit 4a9b09d)**:
+- **Fixed OpenClaw agent TTS parameter contamination** - Aliyun/Tencent now work through agent pipeline
+- Added intelligent text cleaning to remove JSON metadata (`,timeout:XXX}`)
+- Uses temporary file for safe parameter passing, avoiding shell escaping issues
+- Includes automated test suite (test-tts-cleanup.js, 5 test cases)
+- Fully backward compatible with normal text input
+
+**Previous Updates (v1.4.0)**:
+- Complete Aliyun and Tencent provider implementation (v1.3.x had non-functional stubs)
+- Fully functional Aliyun/Tencent TTS/ASR with proper signatures
 - Added 5 new Python implementations for production use
 - Fixed "Not implemented yet" errors for Chinese cloud providers
-
-**Previous Updates (v1.3.1)**:
-- Fixed Aliyun ASR timestamp sync issue (0% error, was -75%)
-- Added smart text segmentation for Aliyun ASR (6+ segments vs 1)
-- Optimized default background parameters (+300% visibility)
-- Enhanced subtitle styles with neon glow and positioning
 
 ### 📦 Installation
 
@@ -309,7 +309,7 @@ MIT License - See LICENSE file for details
 - ✅ 源代码**开源**且可审计
 - ✅ 使用官方 **npm 包**（openclaw-video-generator）
 - ✅ **已验证的仓库**: github.com/ZhenRobotics/openclaw-video-generator
-- ✅ **已验证的提交**: 8d86054 (v1.4.0 - 完整阿里云/腾讯云实现)
+- ✅ **已验证的提交**: 4a9b09d (v1.4.1 - 修复 OpenClaw agent TTS 参数污染)
 - ✅ **无数据收集** - 所有处理均在本地
 
 **所需 API 访问**：
@@ -318,20 +318,20 @@ MIT License - See LICENSE file for details
 - 您完全控制您的 API 密钥
 - 支持提供商间自动降级
 
-### ✨ 最新功能（最新：v1.4.0）
+### ✨ 最新功能（最新：v1.4.1）
 
-**🚨 v1.4.0 重要修复（提交 8d86054）**：
-- **完整的阿里云和腾讯云提供商实现** - v1.3.x 版本发布的是无功能占位符
-- 全功能阿里云 TTS/ASR，包含 HMAC-SHA1 签名实现
-- 全功能腾讯云 TTS/ASR，包含 API v3 签名实现
+**🐛 v1.4.1 Bug 修复（提交 4a9b09d）**：
+- **修复 OpenClaw agent TTS 参数污染问题** - 阿里云/腾讯云现可通过 agent 管道正常工作
+- 添加智能文本清理以移除 JSON 元数据（`,timeout:XXX}`）
+- 使用临时文件进行安全参数传递，避免 shell 转义问题
+- 包含自动化测试套件（test-tts-cleanup.js，5 个测试用例）
+- 完全向后兼容正常文本输入
+
+**历史更新（v1.4.0）**：
+- 完整的阿里云和腾讯云提供商实现（v1.3.x 版本是无功能占位符）
+- 全功能阿里云/腾讯云 TTS/ASR，包含正确的签名实现
 - 新增 5 个生产环境可用的 Python 实现
 - 修复中国云服务提供商的"未实现"错误
-
-**历史更新（v1.3.1）**：
-- 修复阿里云 ASR 时间戳同步问题（误差从 -75% 降至 0%）
-- 为阿里云 ASR 添加智能文本分段（从 1 个片段提升到 6+ 个）
-- 优化默认背景参数（+300% 可见度）
-- 增强字幕样式，添加霓虹发光效果和定位优化
 
 ### 📦 安装
 
