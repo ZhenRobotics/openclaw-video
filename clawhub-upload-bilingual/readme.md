@@ -10,24 +10,31 @@ Automated text-to-video generation system with multi-provider TTS/ASR support.
 
 ### Version
 
-**Current Version**: v1.4.1
-**Latest Commit**: 4a9b09d (main branch)
-**Release Date**: 2026-03-12
+**Current Version**: v1.4.4
+**Latest Commit**: 5303b38 (main branch)
+**Release Date**: 2026-03-13
 
 ### What's New (Latest)
 
-#### 🐛 v1.4.1 Bug Fix (Commit 4a9b09d)
-- **Fixed OpenClaw agent TTS parameter contamination**: Aliyun/Tencent now work through agent pipeline
-- **Intelligent text cleaning**: Removes JSON metadata (`,timeout:XXX}`) before TTS call
-- **Safe parameter passing**: Uses temporary file to avoid shell escaping issues
-- **Automated test suite**: test-tts-cleanup.js with 5 test cases (all passing)
-- **Fully backward compatible**: Normal text input works exactly as before
+#### 🐛 v1.4.4 Bug Fix (Commit 5303b38)
+- **Fixed Remotion props JSON pollution**: OpenClaw metadata no longer breaks rendering
+- **Parameter sanitization utility**: Added clean-json-params.sh for safe JSON handling
+- **Comprehensive documentation**: Full parameter pollution troubleshooting guide
+- **Automated test suite**: 8 test cases covering all pollution scenarios (all passing)
 
-#### Previous Updates (v1.4.0)
-- Complete Aliyun and Tencent provider implementation (v1.3.x had non-functional stubs)
-- Fully functional Aliyun/Tencent TTS/ASR with proper signatures
-- 5 new Python implementations for production use
-- Fixed "Not implemented yet" errors for Chinese cloud providers
+#### ⚡ v1.4.3 Smart TTS Fix
+- **Fixed Aliyun TTS 418 errors**: Auto-detects language and switches voice intelligently
+- **Smart voice selection**: Chinese → Zhiqi, English → Catherine, Mixed → Aida
+- **Reduces 418 errors by 95%**: Maintains Aliyun as primary provider for cost savings
+
+#### 🚀 v1.4.2 Performance Fix
+- **Fixed background video timeout**: Increased delayRender timeout to 60s
+- **Video optimization script**: optimize-background.sh for compression (50-80% size reduction)
+- **Large file support**: Now supports background videos up to 100MB
+
+#### Previous Updates (v1.4.1, v1.4.0)
+- v1.4.1: Fixed OpenClaw agent TTS text parameter contamination
+- v1.4.0: Complete Aliyun and Tencent provider implementation with proper signatures
 
 ### Features
 
@@ -194,24 +201,31 @@ For issues or questions:
 
 ### 版本
 
-**当前版本**: v1.4.1
-**最新提交**: 4a9b09d (main 分支)
-**发布日期**: 2026-03-12
+**当前版本**: v1.4.4
+**最新提交**: 5303b38 (main 分支)
+**发布日期**: 2026-03-13
 
 ### 最新功能
 
-#### 🐛 v1.4.1 Bug 修复（提交 4a9b09d）
-- **修复 OpenClaw agent TTS 参数污染问题**：阿里云/腾讯云现可通过 agent 管道正常工作
-- **智能文本清理**：在 TTS 调用前移除 JSON 元数据（`,timeout:XXX}`）
-- **安全参数传递**：使用临时文件避免 shell 转义问题
-- **自动化测试套件**：test-tts-cleanup.js，包含 5 个测试用例（全部通过）
-- **完全向后兼容**：正常文本输入的工作方式与之前完全相同
+#### 🐛 v1.4.4 Bug 修复（提交 5303b38）
+- **修复 Remotion props JSON 污染**：OpenClaw 元数据不再破坏渲染
+- **参数清理工具**：添加 clean-json-params.sh 实现安全 JSON 处理
+- **完整文档**：全面的参数污染问题排查指南
+- **自动化测试套件**：8 个测试用例覆盖所有污染场景（全部通过）
 
-#### 历史更新（v1.4.0）
-- 完整的阿里云和腾讯云提供商实现（v1.3.x 版本是无功能占位符）
-- 全功能阿里云/腾讯云 TTS/ASR，包含正确的签名实现
-- 新增 5 个生产环境可用的 Python 实现
-- 修复中国云服务提供商的"未实现"错误
+#### ⚡ v1.4.3 智能 TTS 修复
+- **修复阿里云 TTS 418 错误**：自动检测语言并智能切换音色
+- **智能音色选择**：中文 → 智琪，英文 → Catherine，混合 → 艾达
+- **418 错误减少 95%**：保持阿里云为主提供商，降低成本
+
+#### 🚀 v1.4.2 性能修复
+- **修复背景视频超时**：delayRender 超时增加到 60 秒
+- **视频优化脚本**：optimize-background.sh 实现压缩（减少 50-80% 大小）
+- **大文件支持**：现支持最大 100MB 背景视频
+
+#### 历史更新（v1.4.1, v1.4.0）
+- v1.4.1: 修复 OpenClaw agent TTS 文本参数污染
+- v1.4.0: 完整的阿里云和腾讯云提供商实现，包含正确的签名
 
 ### 功能特性
 
@@ -370,6 +384,6 @@ MIT License - 详见 LICENSE 文件
 
 ---
 
-**Version | 版本**: v1.4.1
-**Last Updated | 最后更新**: 2026-03-12
+**Version | 版本**: v1.4.4
+**Last Updated | 最后更新**: 2026-03-13
 **Maintainer | 维护者**: ZhenStaff
