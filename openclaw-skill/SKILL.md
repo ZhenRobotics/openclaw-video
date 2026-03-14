@@ -49,6 +49,14 @@ requires:
       version: ">=1.5.0"
       verified_repo: https://github.com/ZhenRobotics/openclaw-video-generator
       verified_commit: 63b6101  # v1.5.0 - Cyber Design System & Testing Suite (main branch)
+install:
+  commands:
+    - npm install -g openclaw-video-generator@latest
+  verify:
+    - openclaw-video-generator --version
+  notes: |
+    Requires at least one TTS/ASR provider API key.
+    Set OPENAI_API_KEY for default provider, or configure alternative providers.
 ---
 
 # 🎬 Video Generator Skill
