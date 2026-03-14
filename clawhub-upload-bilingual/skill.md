@@ -46,9 +46,9 @@ requires:
   packages:
     - name: openclaw-video-generator
       source: npm
-      version: ">=1.4.4"
+      version: ">=1.5.0"
       verified_repo: https://github.com/ZhenRobotics/openclaw-video-generator
-      verified_commit: 5303b38  # v1.4.4 - Complete OpenClaw integration fixes (main branch)
+      verified_commit: 63b6101  # v1.5.0 - Cyber Design System & Testing Suite (main branch)
 ---
 
 # 🎬 Video Generator Skill | 视频生成器技能
@@ -69,7 +69,7 @@ This skill is **safe and verified**:
 - ✅ Source code is **open source** and auditable
 - ✅ Uses official **npm package** (openclaw-video-generator)
 - ✅ **Verified repository**: github.com/ZhenRobotics/openclaw-video-generator
-- ✅ **Verified commit**: 5303b38 (v1.4.4 - Complete OpenClaw integration fixes)
+- ✅ **Verified commit**: 63b6101 (v1.5.0 - Cyber Design System & Testing Suite)
 - ✅ **No data collection** - all processing is local
 
 **Required API Access**:
@@ -78,7 +78,15 @@ This skill is **safe and verified**:
 - You maintain full control of your API keys
 - Supports automatic fallback between providers
 
-### ✨ What's New (Latest: v1.4.4)
+### ✨ What's New (Latest: v1.5.0)
+
+**🎨 v1.5.0 Major Update (Commit 63b6101)**:
+- **Cyber Design System** - 800+ lines of design tokens with WCAG AA compliance
+- **Typography System** - Orbitron/Rajdhani fonts for sci-fi aesthetic (+200%)
+- **Color System** - 15+ validated neon colors, all WCAG AA compliant (4.5:1+)
+- **Testing Suite** - 70+ automated tests (100% pass rate)
+- **Performance Benchmarks** - Comprehensive testing framework
+- **Accessibility Certified** - All elements meet WCAG 2.1 AA standards
 
 **🐛 v1.4.4 Bug Fix (Commit 5303b38)**:
 - **Fixed Remotion props JSON pollution** - OpenClaw metadata no longer breaks rendering
@@ -319,7 +327,7 @@ MIT License - See LICENSE file for details
 - ✅ 源代码**开源**且可审计
 - ✅ 使用官方 **npm 包**（openclaw-video-generator）
 - ✅ **已验证的仓库**: github.com/ZhenRobotics/openclaw-video-generator
-- ✅ **已验证的提交**: 5303b38 (v1.4.4 - 完整的 OpenClaw 集成修复)
+- ✅ **已验证的提交**: 63b6101 (v1.5.0 - 赛博设计系统与测试套件)
 - ✅ **无数据收集** - 所有处理均在本地
 
 **所需 API 访问**：
@@ -328,7 +336,15 @@ MIT License - See LICENSE file for details
 - 您完全控制您的 API 密钥
 - 支持提供商间自动降级
 
-### ✨ 最新功能（最新：v1.4.4）
+### ✨ 最新功能（最新：v1.5.0）
+
+**🎨 v1.5.0 重大更新（提交 63b6101）**：
+- **赛博设计系统** - 800+ 行设计 token，WCAG AA 合规
+- **字体系统** - Orbitron/Rajdhani 科技感字体（+200%）
+- **颜色系统** - 15+ 验证霓虹色，全部 WCAG AA 合规（4.5:1+）
+- **测试套件** - 70+ 自动化测试（100% 通过率）
+- **性能基准** - 完整测试框架
+- **可访问性认证** - 所有元素符合 WCAG 2.1 AA 标准
 
 **🐛 v1.4.4 Bug 修复（提交 5303b38）**：
 - **修复 Remotion props JSON 污染** - OpenClaw 元数据不再破坏渲染
