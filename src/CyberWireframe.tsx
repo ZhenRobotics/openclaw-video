@@ -10,6 +10,7 @@ import {
 } from 'remotion';
 import { scenes, videoConfig } from './scenes-data';
 import { SceneRenderer } from './SceneRenderer';
+import { designTokens } from './styles/design-tokens';
 
 export const CyberWireframe: React.FC<{
   audioPath?: string;
@@ -25,13 +26,13 @@ export const CyberWireframe: React.FC<{
   const finalAudioPath = audioPath || videoConfig.audioPath;
   const finalBgVideo = bgVideo || videoConfig.bgVideo;
   const finalBgOpacity = bgOpacity !== undefined ? bgOpacity : (videoConfig.bgOpacity ?? 0.7);
-  const finalBgOverlayColor = bgOverlayColor || videoConfig.bgOverlayColor || 'rgba(10, 10, 15, 0.25)';
+  const finalBgOverlayColor = bgOverlayColor || videoConfig.bgOverlayColor || designTokens.colors.background.translucentDark;
 
   return (
     <AbsoluteFill
       style={{
-        backgroundColor: '#0A0A0F', // Dark background (fallback)
-        fontFamily: 'Arial, sans-serif',
+        backgroundColor: designTokens.colors.background.dark,
+        fontFamily: designTokens.typography.fontFamily.primary,
       }}
     >
       {/* Global background video layer */}
@@ -44,6 +45,7 @@ export const CyberWireframe: React.FC<{
             height: '100%',
             objectFit: 'cover',
             opacity: finalBgOpacity,
+            zIndex: designTokens.layout.zIndex.background,
           }}
           volume={0}
           loop
@@ -52,7 +54,12 @@ export const CyberWireframe: React.FC<{
 
       {/* Dark overlay for better text visibility */}
       {finalBgVideo && (
-        <AbsoluteFill style={{ backgroundColor: finalBgOverlayColor }} />
+        <AbsoluteFill
+          style={{
+            backgroundColor: finalBgOverlayColor,
+            zIndex: designTokens.layout.zIndex.overlay,
+          }}
+        />
       )}
 
       {/* Audio track (if available) */}
@@ -80,10 +87,13 @@ export const CyberWireframe: React.FC<{
       <div
         style={{
           position: 'absolute',
-          top: 20,
-          right: 20,
+          top: designTokens.spacing[5],
+          right: designTokens.spacing[5],
           color: 'rgba(255, 255, 255, 0.3)',
-          fontSize: 14,
+          fontSize: designTokens.typography.fontSize.xs,
+          fontFamily: designTokens.typography.fontFamily.secondary,
+          zIndex: designTokens.layout.zIndex.debug,
+          textShadow: '0 1px 2px rgba(0, 0, 0, 0.8)',
         }}
       >
         {currentTime.toFixed(2)}s
