@@ -10,9 +10,9 @@ Automated text-to-video generation system with multi-provider TTS/ASR support.
 
 ### Version
 
-**Current Version**: v1.4.4
-**Latest Commit**: 5303b38 (main branch)
-**Release Date**: 2026-03-13
+**Current Version**: v1.5.0
+**Latest Commit**: 63b6101 (main branch)
+**Release Date**: 2026-03-14
 
 ### What's New (Latest)
 
@@ -201,11 +201,19 @@ For issues or questions:
 
 ### 版本
 
-**当前版本**: v1.4.4
-**最新提交**: 5303b38 (main 分支)
-**发布日期**: 2026-03-13
+**当前版本**: v1.5.0
+**最新提交**: 63b6101 (main 分支)
+**发布日期**: 2026-03-14
 
 ### 最新功能
+
+#### 🎨 v1.5.0 重大更新（提交 63b6101）
+- **赛博设计系统** - 800+ 行设计 token，WCAG AA 合规
+- **字体系统** - Orbitron/Rajdhani 科技感字体（+200%）
+- **颜色系统** - 15+ 验证霓虹色，全部 WCAG AA 合规（4.5:1+）
+- **测试套件** - 70+ 自动化测试（100% 通过率）
+- **性能基准** - 完整测试框架
+- **可访问性认证** - 所有元素符合 WCAG 2.1 AA 标准
 
 #### 🐛 v1.4.4 Bug 修复（提交 5303b38）
 - **修复 Remotion props JSON 污染**：OpenClaw 元数据不再破坏渲染
@@ -384,6 +392,6 @@ MIT License - 详见 LICENSE 文件
 
 ---
 
-**Version | 版本**: v1.4.4
-**Last Updated | 最后更新**: 2026-03-13
+**Version | 版本**: v1.5.0
+**Last Updated | 最后更新**: 2026-03-14
 **Maintainer | 维护者**: ZhenStaff
