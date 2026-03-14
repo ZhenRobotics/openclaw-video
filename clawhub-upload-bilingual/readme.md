@@ -11,7 +11,7 @@ Automated text-to-video generation system with multi-provider TTS/ASR support.
 ### Version
 
 **Current Version**: v1.5.0
-**Latest Commit**: 09e41d1 (main branch)
+**Latest Commit**: b2baf84 (main branch)
 **Release Date**: 2026-03-14
 
 ### What's New (Latest)
@@ -213,12 +213,12 @@ MIT License - See LICENSE file for details
 ### 版本
 
 **当前版本**: v1.5.0
-**最新提交**: 09e41d1 (main 分支)
+**最新提交**: b2baf84 (main 分支)
 **发布日期**: 2026-03-14
 
 ### 最新功能
 
-#### 🎨 v1.5.0 重大更新（提交 09e41d1）
+#### 🎨 v1.5.0 重大更新（提交 b2baf84）
 - **赛博设计系统** - 800+ 行设计 token，WCAG AA 合规
 - **字体系统** - Orbitron/Rajdhani 科技感字体（+200%）
 - **颜色系统** - 15+ 验证霓虹色，全部 WCAG AA 合规（4.5:1+）

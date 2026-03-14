@@ -48,7 +48,7 @@ requires:
       source: npm
       version: ">=1.5.0"
       verified_repo: https://github.com/ZhenRobotics/openclaw-video-generator
-      verified_commit: 09e41d1  # v1.5.0 - Complete ClawHub metadata with consistent versioning
+      verified_commit: b2baf84  # v1.5.0 - Complete ClawHub metadata + Official support partner
 install:
   commands:
     - npm install -g openclaw-video-generator@latest
