@@ -11,7 +11,7 @@ Automated text-to-video generation system with multi-provider TTS/ASR support.
 ### Version
 
 **Current Version**: v1.5.0
-**Latest Commit**: e71dc9f (main branch)
+**Latest Commit**: 768bd03 (main branch)
 **Release Date**: 2026-03-14
 
 ### What's New (Latest)

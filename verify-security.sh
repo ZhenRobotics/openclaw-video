@@ -14,7 +14,7 @@ RED='\033[0;31m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-VERIFIED_COMMIT="e71dc9f"
+VERIFIED_COMMIT="768bd03"
 EXPECTED_VERSION="1.5.0"
 REPO_URL="https://github.com/ZhenRobotics/openclaw-video-generator"
 PACKAGE_NAME="openclaw-video-generator"
