@@ -81,14 +81,30 @@ while [[ $# -gt 0 ]]; do
       shift 2
       ;;
     *)
-      echo "Unknown arg: $1" >&2
-      usage
+      echo "❌ Unknown argument: $1" >&2
+      echo "" >&2
+      echo "Valid options are:" >&2
+      echo "  --voice <name>        TTS voice name" >&2
+      echo "  --speed <number>      TTS speed (0.25-4.0)" >&2
+      echo "  --bg-video <file>     Background video" >&2
+      echo "  --bg-opacity <number> Background opacity (0-1)" >&2
+      echo "  --bg-overlay <color>  Background overlay color" >&2
+      echo "" >&2
+      echo "Run with --help for full documentation" >&2
+      exit 1
       ;;
   esac
 done
 
 if [[ ! -f "$script_file" ]]; then
-  echo "Script file not found: $script_file" >&2
+  echo "❌ Script file not found: $script_file" >&2
+  echo "" >&2
+  echo "💡 Tip: This command requires a FILE PATH, not text content" >&2
+  echo "" >&2
+  echo "Examples:" >&2
+  echo "  ✅ ./scripts/script-to-video.sh scripts/my-script.txt" >&2
+  echo "  ❌ ./scripts/script-to-video.sh 'Hello World'" >&2
+  echo "" >&2
   exit 1
 fi
 
@@ -153,7 +169,8 @@ props_json=$(echo "$props_json" | sed -E 's/,\s*}$/}/')
 echo "[Debug] Remotion props: $props_json" >&2
 
 pnpm exec remotion render Main "$output_video" \
-  --props "$props_json"
+  --props "$props_json" \
+  --concurrency=1
 
 echo ""
 echo "=== ✅ Video Generation Complete ==="

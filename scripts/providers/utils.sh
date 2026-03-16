@@ -14,7 +14,7 @@ load_env() {
 # Usage: get_providers "tts" or get_providers "asr"
 get_providers() {
   local service="$1"
-  local var_name="${service^^}_PROVIDERS"
+  local var_name="$(echo "${service}" | tr '[:lower:]' '[:upper:]')_PROVIDERS"
   local providers="${!var_name:-}"
 
   if [[ -z "$providers" ]]; then

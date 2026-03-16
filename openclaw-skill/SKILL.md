@@ -104,17 +104,42 @@ brew install node ffmpeg
 
 ### Installation Methods
 
-**Method 1: npm Package (Recommended - Safe)**
+Both methods are fully supported. Choose based on your needs:
+
+| Feature | npm Global Install | Git Clone Local Install |
+|---------|-------------------|------------------------|
+| **Difficulty** | ⭐ Simple (one command) | ⭐⭐ Requires clone + npm install |
+| **Updates** | `npm update -g` | `git pull && npm install` |
+| **Use Case** | End users, quick start | Developers, code customization |
+| **API Keys** | System environment variables | Project .env file (recommended) |
+| **Disk Usage** | Small (single global copy) | Each project has its own copy |
+| **Recommended For** | Terminal users, AI agents | Developers, teams |
+
+**Method 1: npm Package (Quick Start)**
+
+✅ **Pros**: Simple installation, global access, easy updates
+⚠️ **Note**: Requires system-level environment variable configuration
 
 ```bash
 # Install from verified npm registry
 npm install -g openclaw-video-generator
 
+# Configure API Key (choose one):
+# Option A: Environment variable (recommended)
+export OPENAI_API_KEY="sk-..."
+# Add to ~/.bashrc (Linux) or ~/.zshrc (macOS)
+
+# Option B: Pass via command line
+openclaw-video-generator generate "your text" --api-key "sk-..."
+
 # Verify installation
 openclaw-video --version
 ```
 
-**Method 2: From Source (For developers)**
+**Method 2: From Source (Developer Recommended)**
+
+✅ **Pros**: Can modify code, project-local .env, easier debugging
+⚠️ **Note**: Requires git clone and manual dependency installation
 
 ```bash
 # Clone from verified repository
@@ -122,14 +147,40 @@ git clone https://github.com/ZhenRobotics/openclaw-video-generator.git ~/opencla
 
 # Verify commit (security check)
 cd ~/openclaw-video-generator
-git rev-parse HEAD  # Should match verified commit: e0fb35f
+git rev-parse HEAD  # Should match verified commit: ac3c568
 
 # Install dependencies
 npm install
 
-# Build
+# Configure .env file (project-level, more secure)
+cp .env.example .env
+nano .env  # Add your API keys here
+
+# Build (if needed)
 npm run build
 ```
+
+**macOS Users - Special Notes**:
+
+If you encounter permission issues with npm global install:
+
+```bash
+# Solution A: Use sudo (simple but requires password)
+sudo npm install -g openclaw-video-generator
+
+# Solution B: Configure npm to user directory (recommended, permanent fix)
+mkdir -p ~/.npm-global
+npm config set prefix '~/.npm-global'
+echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.zshrc
+source ~/.zshrc
+npm install -g openclaw-video-generator
+```
+
+For macOS users, we **recommend Method 2 (Git Clone)** because:
+- ✅ Clearer paths, no global install permissions needed
+- ✅ Easier .env file management
+- ✅ Better for debugging
+- ✅ Avoids zsh/bash environment variable confusion
 
 > 💬 **Need Help with Deployment?** Contact our official maintenance partner: **专注人工智能的黄纪恩学长**（闲鱼 Xianyu）for technical support and troubleshooting.
 

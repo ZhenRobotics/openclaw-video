@@ -18,24 +18,73 @@
 - Node.js >= 18
 - pnpm (或 npm/yarn)
 - OpenAI API Key
+- ffmpeg (视频处理)
+- Python 3 (TTS/ASR 脚本)
+
+### 安装方式选择
+
+项目支持两种安装方式，根据你的使用场景选择：
+
+| 特性 | npm 全局安装 | Git Clone 本地安装 |
+|------|------------|-------------------|
+| **安装难度** | ⭐ 简单（一条命令） | ⭐⭐ 需要克隆 + npm install |
+| **更新方式** | `npm update -g` | `git pull && npm install` |
+| **适用场景** | 普通用户、快速使用 | 开发者、需要修改代码 |
+| **环境变量** | 系统级配置或命令行传递 | 项目内 .env 文件（推荐） |
+| **磁盘占用** | 较小（单份全局） | 每个项目独立一份 |
+| **推荐给** | 终端用户、AI Agent | 开发者、团队协作 |
+
+#### 方式 1: npm 全局安装（快速使用）
+
+适合普通用户和快速开始：
+
+```bash
+# 安装
+npm install -g openclaw-video-generator
+
+# 配置 API Key（两种方式任选一种）
+# 方式 A: 环境变量（推荐）
+export OPENAI_API_KEY="sk-..."
+# macOS 用户添加到 ~/.zshrc，Linux 用户添加到 ~/.bashrc
+
+# 方式 B: 命令行传递
+openclaw-video-generator generate "你的文本" --api-key "sk-..."
+
+# 验证安装
+openclaw-video-generator --version
+```
+
+**优点**:
+- ✅ 安装简单，一条命令搞定
+- ✅ 全局可用，任何目录都能调用
+- ✅ 自动更新方便
+
+**注意事项**:
+- ⚠️ macOS 用户如遇权限问题，见下方"macOS 特别说明"
+- ⚠️ 环境变量需要在系统级配置
+
+#### 方式 2: Git Clone 本地安装（开发推荐）
+
+适合开发者和需要自定义的用户：
 
 ### 安装
 
-#### 方式 1: 通过 ClawHub（推荐，适合 AI Agent 使用）
+**通过 ClawHub（推荐 AI Agent 使用）**:
 
 ```bash
 # 1. 安装 skill
 clawhub install video-generator
 
 # 2. 克隆项目
-git clone https://github.com/ZhenRobotics/openclaw-video.git ~/openclaw-video
-cd ~/openclaw-video
+git clone https://github.com/ZhenRobotics/openclaw-video-generator.git ~/openclaw-video-generator
+cd ~/openclaw-video-generator
 
 # 3. 安装依赖
 npm install
 
-# 4. 设置 API Key
-export OPENAI_API_KEY="sk-..."
+# 4. 配置 .env 文件（项目内管理密钥）
+cp .env.example .env
+nano .env  # 填入你的 API Key
 
 # 5. 验证安装
 ./agents/video-cli.sh help
@@ -43,19 +92,79 @@ export OPENAI_API_KEY="sk-..."
 
 **ClawHub Skill 链接**: https://clawhub.ai/ZhenStaff/video-generator
 
-#### 方式 2: 直接从 GitHub
+**直接从 GitHub**:
 
 ```bash
 # 1. 克隆项目
-git clone https://github.com/ZhenRobotics/openclaw-video.git
-cd openclaw-video
+git clone https://github.com/ZhenRobotics/openclaw-video-generator.git
+cd openclaw-video-generator
 
 # 2. 安装依赖
 npm install
 
-# 3. 设置 API Key
-export OPENAI_API_KEY="sk-..."
+# 3. 配置 .env 文件
+cp .env.example .env
+nano .env  # 填入你的 API Key
 ```
+
+**优点**:
+- ✅ 可以修改源码和配置
+- ✅ 环境变量在项目内（.env 文件），更安全
+- ✅ 适合开发和调试
+- ✅ 多个项目可以有不同配置
+- ✅ 团队协作时配置统一
+
+#### macOS 用户特别说明
+
+无论选择哪种安装方式，macOS 用户请注意：
+
+**1. 安装依赖工具**:
+```bash
+# 使用 Homebrew 安装
+brew install node ffmpeg python3
+
+# 检查版本
+node --version  # 应该 >= 18
+ffmpeg -version
+python3 --version
+```
+
+**2. npm 全局安装权限问题**（如选择方式 1）:
+
+如果遇到权限错误，选择以下方案之一：
+
+```bash
+# 方案 A: 使用 sudo（简单但需要密码）
+sudo npm install -g openclaw-video-generator
+
+# 方案 B: 配置 npm 到用户目录（推荐，一劳永逸）
+mkdir -p ~/.npm-global
+npm config set prefix '~/.npm-global'
+echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.zshrc
+source ~/.zshrc
+npm install -g openclaw-video-generator
+```
+
+**3. 环境变量配置**:
+
+macOS Catalina+ 默认使用 zsh，配置文件是 `~/.zshrc`（不是 `~/.bashrc`）：
+
+```bash
+# 添加 API Key 到 zsh 配置
+echo 'export OPENAI_API_KEY="sk-..."' >> ~/.zshrc
+source ~/.zshrc
+
+# 验证
+echo $OPENAI_API_KEY
+```
+
+**4. 推荐方式**:
+
+对于 macOS 用户，我们**推荐使用 Git Clone 方式**（方式 2），因为：
+- ✅ 路径更清晰，不需要处理全局安装权限
+- ✅ .env 文件管理更方便
+- ✅ 更容易调试和排查问题
+- ✅ 避免 zsh/bash 环境变量混淆
 
 ### 生成第一个视频
 
@@ -398,7 +507,7 @@ pnpm dev
 ## 📦 项目结构
 
 ```
-openclaw-video/
+openclaw-video-generator/
 ├── audio/                      # 音频文件
 │   ├── example-timestamps.json # 示例时间戳
 │   └── *.mp3                   # 生成的音频

@@ -11,6 +11,34 @@ build/
 audio/generated.mp3
 audio/generated-timestamps.json
 public/generated.mp3
+audio/*.mp3
+audio/*-timestamps.json
+!audio/example-timestamps.json
+public/*.mp3
+
+# Test and generated files
+poster.html
+poster.jpg
+poster.png
+research-analyst-poster.html
+research-analyst-poster.jpg
+research-analyst-poster.png
+generate-poster.js
+generate-*.sh
+scripts/*.txt
+!scripts/example-script.txt
+*_RESULT.md
+*_RESULTS.md
+*POSTER_README.md
+*PROMO_*.md
+
+# Project description exports (temporary)
+PROJECT_DESCRIPTION.pdf
+PROJECT_DESCRIPTION.md
+MEDICAL_SALARY_NEWS_VIDEO.md
+
+# Python cache
+scripts/providers/**/__pycache__/
 
 # Temporary and unrelated files
 zhenskill-*.txt
