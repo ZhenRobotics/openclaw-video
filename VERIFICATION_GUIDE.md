@@ -4,7 +4,7 @@
 
 **创建日期**: 2026-03-15
 **项目版本**: v1.5.0
-**verified_commit**: f83ee14
+**verified_commit**: 708bad7
 
 ---
 
@@ -14,7 +14,7 @@
 
 | 检查项 | 状态 | 说明 |
 |--------|------|------|
-| Commit hash 一致性 | ✅ 通过 | 所有引用指向 f83ee14 |
+| Commit hash 一致性 | ✅ 通过 | 所有引用指向 708bad7 |
 | Commit 真实性 | ✅ 通过 | 已推送到 GitHub origin/main |
 | npm 包版本匹配 | ✅ 通过 | v1.5.0 已发布 |
 | 版本号一致性 | ✅ 通过 | package.json, skill.md, readme.md 一致 |
@@ -34,7 +34,7 @@
 https://github.com/ZhenRobotics/openclaw-video-generator
 
 # 验证 verified_commit 存在
-https://github.com/ZhenRobotics/openclaw-video-generator/commit/f83ee14
+https://github.com/ZhenRobotics/openclaw-video-generator/commit/708bad7
 ```
 
 #### 1.2 访问 npm 包页面
@@ -72,11 +72,11 @@ git clone https://github.com/ZhenRobotics/openclaw-video-generator.git
 cd openclaw-video-generator
 
 # 切换到 verified_commit
-git checkout f83ee14
+git checkout 708bad7
 
 # 验证 commit hash
 git rev-parse HEAD
-# 应该输出: f83ee145f60713b82fde813f40b9dc8a56c56b35
+# 应该输出: 708bad75f60713b82fde813f40b9dc8a56c56b35
 ```
 
 #### 2.2 检查网络调用
@@ -202,7 +202,7 @@ npm pack openclaw-video-generator@1.5.0
 tar -tzf openclaw-video-generator-1.5.0.tgz | head -20
 
 # 3. 验证 GitHub commit
-git ls-remote https://github.com/ZhenRobotics/openclaw-video-generator.git | grep f83ee14
+git ls-remote https://github.com/ZhenRobotics/openclaw-video-generator.git | grep 708bad7
 
 # 4. 对比 package.json
 curl -s https://registry.npmjs.org/openclaw-video-generator/1.5.0 | jq '.version, .repository.url'
@@ -234,7 +234,7 @@ cat package/package.json | jq '.scripts'
 
 使用前请确认：
 
-- [ ] 已访问 GitHub 仓库并验证 commit f83ee14 存在
+- [ ] 已访问 GitHub 仓库并验证 commit 708bad7 存在
 - [ ] 已访问 npm 包页面并确认 v1.5.0 版本
 - [ ] 已检查源代码，没有发现可疑的网络调用
 - [ ] 已查看 package.json scripts，没有 postinstall 等危险脚本
@@ -249,7 +249,7 @@ cat package/package.json | jq '.scripts'
 
 - **GitHub 仓库**: https://github.com/ZhenRobotics/openclaw-video-generator
 - **npm 包**: https://www.npmjs.com/package/openclaw-video-generator
-- **verified_commit**: https://github.com/ZhenRobotics/openclaw-video-generator/commit/f83ee14
+- **verified_commit**: https://github.com/ZhenRobotics/openclaw-video-generator/commit/708bad7
 - **ClawHub 技能**: https://clawhub.ai/ZhenStaff/video-generator
 
 ---
