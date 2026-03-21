@@ -25,6 +25,9 @@
     "dev": "remotion studio",
     "build": "remotion render",
     "render": "remotion render Main out/video.mp4",
+    "poster": "node scripts/generate-poster.js",
+    "poster:default": "node scripts/generate-poster.js default poster",
+    "poster:research": "node scripts/generate-poster.js research-analyst research-analyst-poster",
     "prepublishOnly": "echo 'Publishing openclaw-video...'",
     "postinstall": "echo 'Thanks for installing openclaw-video! Run: openclaw-video help'"
   },

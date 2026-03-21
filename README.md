@@ -9,6 +9,7 @@
 - 🎬 **场景编排** - 智能检测场景类型，自动生成 Remotion 数据
 - 🎨 **赛博风格** - 线框动画、故障效果、霓虹色彩
 - 🖼️ **背景视频** - 支持自定义背景视频，可调透明度和遮罩
+- 📸 **海报生成** - HTML/CSS + Chrome Headless，一键生成项目海报
 - 🤖 **完全自动化** - 一行命令完成从文本到视频的全流程
 
 ## 🚀 快速开始
@@ -274,6 +275,7 @@ TTS 语音生成 (OpenAI TTS)
 | `tts-generate.sh` | TTS 语音生成 | `./scripts/tts-generate.sh <文本>` |
 | `whisper-timestamps.sh` | 时间戳提取 | `./scripts/whisper-timestamps.sh <audio.mp3>` |
 | `timestamps-to-scenes.js` | 场景转换 | `node scripts/timestamps-to-scenes.js <timestamps.json>` |
+| `generate-poster.js` | 海报生成器 | `npm run poster [template] [output-name]` |
 
 ### 测试脚本
 
@@ -374,6 +376,39 @@ EOF
   --voice nova \
   --speed 1.3
 ```
+
+### 示例 3: 生成项目海报
+
+```bash
+# 使用默认模板生成海报
+npm run poster
+
+# 生成研究分析师海报
+npm run poster:research
+
+# 使用自定义模板和输出名称
+npm run poster default my-custom-poster
+
+# 批量生成所有模板
+npm run poster default poster && npm run poster research-analyst research-poster
+```
+
+**海报生成特性：**
+- 📐 **标准尺寸** - 1200x1600 像素（3:4 比例）
+- 🎨 **赛博风格** - 霓虹色彩、网格背景、光效动画
+- 📸 **Chrome 渲染** - 高质量 HTML/CSS 转图片
+- 🖼️ **双格式输出** - PNG（高清）+ JPG（压缩）
+- 🔧 **可自定义** - 支持创建自定义 HTML 模板
+
+**依赖要求：**
+- Chrome/Chromium（必需）
+- FFmpeg（可选，用于 JPG 转换）
+
+**可用模板：**
+- `default` - OpenClaw Video Generator 标准海报
+- `research-analyst` - Research Analyst 项目海报
+
+详细文档：[scripts/poster-templates/README.md](scripts/poster-templates/README.md)
 
 ## ⚙️ 高级配置
 

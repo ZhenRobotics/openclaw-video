@@ -16,14 +16,14 @@ audio/*-timestamps.json
 !audio/example-timestamps.json
 public/*.mp3
 
-# Test and generated files
-poster.html
-poster.jpg
-poster.png
-research-analyst-poster.html
-research-analyst-poster.jpg
-research-analyst-poster.png
-generate-poster.js
+# Test and generated files (root directory only)
+/poster.html
+/poster.jpg
+/poster.png
+/research-analyst-poster.html
+/research-analyst-poster.jpg
+/research-analyst-poster.png
+/generate-poster.js
 generate-*.sh
 scripts/*.txt
 !scripts/example-script.txt
