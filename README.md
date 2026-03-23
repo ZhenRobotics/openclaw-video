@@ -12,6 +12,23 @@
 - 📸 **海报生成** - HTML/CSS + Chrome Headless，一键生成项目海报
 - 🤖 **完全自动化** - 一行命令完成从文本到视频的全流程
 
+## 🔒 安全和隐私
+
+**本地处理**:
+- ✅ 视频渲染（Remotion）
+- ✅ 场景检测和编排
+- ✅ 文件管理
+
+**云端处理**（数据发送到外部 API）:
+- ⚠️  文本转语音（TTS）- 文本脚本发送到 OpenAI/Azure/阿里云/腾讯云
+- ⚠️  语音识别（Whisper）- 音频文件发送到云端
+- ⚠️  数据受提供商隐私政策约束（如 [OpenAI 隐私政策](https://openai.com/policies/privacy-policy)）
+
+**API 密钥安全**:
+- ✅ 使用 .env 文件或环境变量存储密钥
+- ⚠️  避免通过命令行传递密钥（在进程列表中可见）
+- ✅ 本工具不收集任何数据，无追踪或分析
+
 ## 🚀 快速开始
 
 ### 前置要求
@@ -44,12 +61,13 @@
 npm install -g openclaw-video-generator
 
 # 配置 API Key（两种方式任选一种）
-# 方式 A: 环境变量（推荐）
+# 方式 A: 环境变量（✅ 推荐 - 最安全）
 export OPENAI_API_KEY="sk-..."
 # macOS 用户添加到 ~/.zshrc，Linux 用户添加到 ~/.bashrc
 
-# 方式 B: 命令行传递
-openclaw-video-generator generate "你的文本" --api-key "sk-..."
+# 方式 B: 命令行传递（⚠️  不推荐 - 在进程列表中可见）
+# openclaw-video-generator generate "你的文本" --api-key "sk-..."
+# 警告：命令行传递的 API 密钥在 'ps aux' 中对其他用户可见
 
 # 验证安装
 openclaw-video-generator --version

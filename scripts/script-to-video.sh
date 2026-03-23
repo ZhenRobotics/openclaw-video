@@ -96,6 +96,31 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
+# Validate speed parameter (0.25-4.0)
+if ! [[ "$speed" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
+  echo "❌ Invalid speed value: $speed (must be a number)" >&2
+  exit 1
+fi
+
+# Use awk for floating point comparison (more portable than bc)
+if awk "BEGIN {exit !($speed < 0.25 || $speed > 4.0)}"; then
+  echo "❌ Speed must be between 0.25 and 4.0 (got: $speed)" >&2
+  exit 1
+fi
+
+# Validate bg_opacity parameter (0-1)
+if [[ -n "$bg_video" ]]; then
+  if ! [[ "$bg_opacity" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
+    echo "❌ Invalid bg-opacity value: $bg_opacity (must be a number)" >&2
+    exit 1
+  fi
+
+  if awk "BEGIN {exit !($bg_opacity < 0 || $bg_opacity > 1)}"; then
+    echo "❌ Background opacity must be between 0 and 1 (got: $bg_opacity)" >&2
+    exit 1
+  fi
+fi
+
 if [[ ! -f "$script_file" ]]; then
   echo "❌ Script file not found: $script_file" >&2
   echo "" >&2
@@ -106,6 +131,25 @@ if [[ ! -f "$script_file" ]]; then
   echo "  ❌ ./scripts/script-to-video.sh 'Hello World'" >&2
   echo "" >&2
   exit 1
+fi
+
+# Validate file path is within project directory (security check)
+script_file_abs=$(realpath "$script_file" 2>/dev/null || readlink -f "$script_file" 2>/dev/null || echo "$script_file")
+project_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+
+# Check if the absolute path starts with project root
+if [[ "$script_file_abs" != "$project_root"* ]] && [[ "$script_file_abs" != /* ]]; then
+  # If it's not an absolute path and not under project root, it might be suspicious
+  echo "⚠️  Warning: File path appears to be outside project directory" >&2
+  echo "   File: $script_file_abs" >&2
+  echo "   Project: $project_root" >&2
+  echo "" >&2
+  read -p "Continue anyway? (y/N) " -n 1 -r
+  echo
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo "❌ Aborted for security reasons" >&2
+    exit 1
+  fi
 fi
 
 # Extract base name
@@ -144,11 +188,14 @@ echo ""
 
 # Step 4: Convert to Remotion scenes
 echo "Step 4/5: Converting to Remotion scenes..."
-bg_video_args=""
 if [[ -n "$bg_video" ]]; then
-  bg_video_args="--bg-video \"$bg_video\" --bg-opacity $bg_opacity --bg-overlay \"$bg_overlay\""
+  node scripts/timestamps-to-scenes.js "$timestamps_file" \
+    --bg-video "$bg_video" \
+    --bg-opacity "$bg_opacity" \
+    --bg-overlay "$bg_overlay"
+else
+  node scripts/timestamps-to-scenes.js "$timestamps_file"
 fi
-eval "node scripts/timestamps-to-scenes.js \"$timestamps_file\" $bg_video_args"
 echo ""
 
 # Step 5: Render video

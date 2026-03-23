@@ -12,6 +12,21 @@ const fs = require('fs');
 const template = process.argv[2] || 'default';
 const outputName = process.argv[3] || 'poster';
 
+// Validate template name (whitelist approach)
+const ALLOWED_TEMPLATES = ['default', 'research-analyst'];
+if (!ALLOWED_TEMPLATES.includes(template)) {
+    console.error(`❌ Invalid template name: ${template}`);
+    console.log(`✅ Allowed templates: ${ALLOWED_TEMPLATES.join(', ')}`);
+    process.exit(1);
+}
+
+// Validate output name (only alphanumeric, hyphens, underscores)
+if (!/^[a-zA-Z0-9-_]+$/.test(outputName)) {
+    console.error(`❌ Invalid output name: ${outputName}`);
+    console.log('✅ Output name must contain only letters, numbers, hyphens, and underscores');
+    process.exit(1);
+}
+
 const TEMPLATE_DIR = path.join(__dirname, 'poster-templates');
 const HTML_FILE = path.join(TEMPLATE_DIR, `${template}.html`);
 const OUTPUT_DIR = path.join(__dirname, '..');

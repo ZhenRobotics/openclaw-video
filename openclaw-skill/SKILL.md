@@ -49,7 +49,7 @@ requires:
       source: npm
       version: ">=1.6.0"
       verified_repo: https://github.com/ZhenRobotics/openclaw-video-generator
-      verified_commit: 75df997  # v1.5.1 - Compatibility & Documentation Improvements
+      verified_commit: 7726e04  # v1.6.0 - Poster Generator Integration
 install:
   commands:
     - npm install -g openclaw-video-generator@latest
@@ -67,15 +67,26 @@ Automated text-to-video generation system that transforms text scripts into prof
 ## 🔒 Security & Trust
 
 This skill is **safe and verified**:
-- ✅ All code runs **locally** on your machine
-- ✅ **No external servers** (except OpenAI API for TTS/Whisper)
 - ✅ Source code is **open source** and auditable
 - ✅ Uses official **npm package** (openclaw-video-generator)
 - ✅ **Verified repository**: github.com/ZhenRobotics/openclaw-video-generator
-- ✅ **No data collection** - all processing is local
+- ✅ **No data collection by this tool** - no tracking or analytics
+
+**Data Processing**:
+
+*Local Processing (on your machine):*
+- ✅ Video rendering (Remotion)
+- ✅ Scene detection and orchestration
+- ✅ File management
+
+*Cloud Processing (sent to external APIs):*
+- ⚠️  Text-to-Speech (TTS) - your text script is sent to OpenAI/Azure/Aliyun/Tencent
+- ⚠️  Speech recognition (Whisper) - audio files sent to cloud providers
+- ⚠️  Data subject to provider's privacy policies (e.g., [OpenAI Privacy Policy](https://openai.com/policies/privacy-policy))
 
 **Required API Access**:
 - OpenAI API key (for TTS and Whisper) - you maintain control
+- Alternative: Azure, Aliyun, or Tencent Cloud (configure via environment variables)
 
 ## 📦 Installation
 
@@ -125,12 +136,13 @@ Both methods are fully supported. Choose based on your needs:
 npm install -g openclaw-video-generator
 
 # Configure API Key (choose one):
-# Option A: Environment variable (recommended)
+# Option A: Environment variable (✅ RECOMMENDED - most secure)
 export OPENAI_API_KEY="sk-..."
 # Add to ~/.bashrc (Linux) or ~/.zshrc (macOS)
 
-# Option B: Pass via command line
-openclaw-video-generator generate "your text" --api-key "sk-..."
+# Option B: Pass via command line (⚠️  NOT RECOMMENDED - visible in process list)
+# openclaw-video-generator generate "your text" --api-key "sk-..."
+# WARNING: Command-line API keys are visible in 'ps aux' output to other users
 
 # Verify installation
 openclaw-video --version
@@ -147,7 +159,7 @@ git clone https://github.com/ZhenRobotics/openclaw-video-generator.git ~/opencla
 
 # Verify commit (security check)
 cd ~/openclaw-video-generator
-git rev-parse HEAD  # Should match verified commit: ac3c568
+git rev-parse HEAD  # Should match verified commit: 7726e04
 
 # Install dependencies
 npm install

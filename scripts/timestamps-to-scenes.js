@@ -66,6 +66,15 @@ if (!audioPath && inputFile.includes('-timestamps.json')) {
 
   // Copy audio file to public directory if it exists
   if (fs.existsSync(fullAudioPath)) {
+    // Check file size (max 100MB for audio files)
+    const MAX_AUDIO_SIZE = 100 * 1024 * 1024; // 100MB
+    const stats = fs.statSync(fullAudioPath);
+
+    if (stats.size > MAX_AUDIO_SIZE) {
+      console.error(`❌ Audio file too large: ${(stats.size / 1024 / 1024).toFixed(1)}MB (max 100MB)`);
+      process.exit(1);
+    }
+
     const audioFileName = path.basename(fullAudioPath);
     const scriptDir = __dirname.endsWith('scripts') ? path.join(__dirname, '..') : __dirname;
     const publicAudioPath = path.resolve(scriptDir, 'public', audioFileName);
@@ -93,6 +102,15 @@ if (bgVideoPath) {
   const fullBgVideoPath = path.resolve(bgVideoPath);
 
   if (fs.existsSync(fullBgVideoPath)) {
+    // Check file size (max 500MB to prevent DoS)
+    const MAX_BG_VIDEO_SIZE = 500 * 1024 * 1024; // 500MB
+    const stats = fs.statSync(fullBgVideoPath);
+
+    if (stats.size > MAX_BG_VIDEO_SIZE) {
+      console.error(`❌ Background video too large: ${(stats.size / 1024 / 1024).toFixed(1)}MB (max 500MB)`);
+      process.exit(1);
+    }
+
     const bgVideoFileName = path.basename(fullBgVideoPath);
     const scriptDir = __dirname.endsWith('scripts') ? path.join(__dirname, '..') : __dirname;
     const publicBgVideoPath = path.resolve(scriptDir, 'public', bgVideoFileName);
