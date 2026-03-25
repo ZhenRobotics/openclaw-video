@@ -91,7 +91,8 @@ export const premiumTokens = {
       textShadow: '0 2px 12px rgba(0, 0, 0, 0.5)',
     },
     authority: {
-      textShadow: '0 2px 8px rgba(0, 0, 0, 0.6)',
+      textShadow: '0 3px 12px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.9)',  // 增强双层阴影
+      subtitleShadow: '0 2px 8px rgba(0, 0, 0, 0.75), 0 1px 2px rgba(0, 0, 0, 0.85)',  // 副标题专用阴影
       lineShadow: '0 1px 4px rgba(0, 0, 0, 0.3)',
     },
     luxury: {

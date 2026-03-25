@@ -204,17 +204,8 @@ export const AuthorityScene: React.FC<PremiumSceneProps> = ({ scene }) => {
         }}
       />
 
-      {/* Content container with semi-transparent background */}
-      <div style={{
-        textAlign: 'left',
-        maxWidth: '80%',
-        marginLeft: '10%',
-        backgroundColor: 'rgba(0, 0, 0, 0.6)',  // 半透明黑色背景
-        padding: '40px 50px',
-        borderRadius: '12px',
-        backdropFilter: 'blur(10px)',  // 背景模糊效果
-        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',  // 背景框阴影
-      }}>
+      {/* Content container */}
+      <div style={{ textAlign: 'left', maxWidth: '80%', marginLeft: '10%' }}>
         {/* Number display */}
         {scene.number && (
           <div
@@ -258,10 +249,10 @@ export const AuthorityScene: React.FC<PremiumSceneProps> = ({ scene }) => {
               fontSize: `${typography.fontSize.subtitle}px`,
               fontWeight: typography.fontWeight.subtitle,
               color: authority.primary,
-              opacity: 0.9,  // 提高不透明度，背景框内更清晰
+              opacity: 0.7,
               marginTop: '15px',
               lineHeight: 1.5,
-              textShadow: effects.subtitleShadow || effects.textShadow,
+              textShadow: effects.subtitleShadow || effects.textShadow,  // 添加副标题阴影
             }}
           >
             {scene.subtitle}
