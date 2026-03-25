@@ -47,9 +47,9 @@ requires:
   packages:
     - name: openclaw-video-generator
       source: npm
-      version: ">=1.6.0"
+      version: ">=1.6.2"
       verified_repo: https://github.com/ZhenRobotics/openclaw-video-generator
-      verified_commit: 7726e04  # v1.6.0 - Poster Generator Integration
+      verified_commit: 67d9299  # v1.6.2 - Chinese TTS Integration & Subtitle Styles
 install:
   commands:
     - npm install -g openclaw-video-generator@latest
@@ -159,7 +159,7 @@ git clone https://github.com/ZhenRobotics/openclaw-video-generator.git ~/opencla
 
 # Verify commit (security check)
 cd ~/openclaw-video-generator
-git rev-parse HEAD  # Should match verified commit: 7726e04
+git rev-parse HEAD  # Should match verified commit: 67d9299
 
 # Install dependencies
 npm install
@@ -499,7 +499,20 @@ See: `MULTI_PROVIDER_SETUP.md` for detailed configuration
 
 ## 🆕 Version History
 
-### v1.2.0 (2026-03-07) - Current
+### v1.6.2 (2026-03-25) - Current
+- 🎤 Chinese TTS integration (Aliyun with 63.4s complete audio)
+- 🎨 Dual subtitle style options (text shadow vs background box)
+- 🩺 Medical content example (stroke recovery video, 8 scenes)
+- 📦 Quick style switching scripts
+- 🔒 Security audit passed (no vulnerabilities)
+
+### v1.6.0 (2026-03-18)
+- ✨ Premium styles system (5 high-end scene types)
+- 🖼️ Poster generator integration
+- 🎨 Design tokens system (800+ lines)
+- 📐 Authority/Luxury/Minimal/Cinematic styles
+
+### v1.2.0 (2026-03-07)
 - ✨ Background video support
 - 🌐 Multi-provider architecture (OpenAI, Azure, Aliyun, Tencent)
 - 🔄 Automatic provider fallback

@@ -1,6 +1,6 @@
 {
   "name": "openclaw-video-generator",
-  "version": "1.6.0",
+  "version": "1.6.2",
   "description": "Automated video generation pipeline with OpenAI TTS, Whisper, and Remotion - from text script to professional short videos",
   "main": "src/index.ts",
   "bin": {
