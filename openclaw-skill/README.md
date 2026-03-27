@@ -4,15 +4,16 @@ Automated text-to-video generation system with multi-provider TTS/ASR support.
 
 ## Version
 
-**Current Version**: v1.3.1
+**Current Version**: v1.6.2
 
-## What's New in v1.3.1
+## What's New in v1.6.2
 
-### Critical Bug Fixes
-- Fixed Aliyun ASR timestamp sync issue (0% error, was -75%)
-- Added smart text segmentation for Aliyun ASR (6 segments vs 1)
-- Fixed OpenAI Whisper data format bug
-- Improved subtitle display effect significantly
+### Major Features
+- Chinese TTS integration with Aliyun (63.4s complete audio)
+- Dual subtitle style options (text shadow vs background box)
+- Medical content examples (stroke recovery video, 8 scenes)
+- Quick style switching scripts
+- Security audit passed (no vulnerabilities)
 
 ## Features
 
@@ -132,10 +133,10 @@ The command generates:
 ## Troubleshooting
 
 ### Audio/Subtitle Sync Issues
-✅ **Fixed in v1.3.1** - Timestamps now use ffprobe for precise detection
+✅ **Fixed in v1.3.1+** - Timestamps use ffprobe for precise detection
 
 ### Single Segment Display
-✅ **Fixed in v1.3.1** - Smart segmentation generates multiple segments
+✅ **Fixed in v1.3.1+** - Smart segmentation generates multiple segments
 
 ### Provider Failures
 - Check API credentials in environment variables
@@ -162,6 +163,6 @@ For issues or questions:
 
 ---
 
-**Version**: v1.3.1
-**Last Updated**: 2026-03-11
+**Version**: v1.6.2
+**Last Updated**: 2026-03-27
 **Maintainer**: ZhenStaff
