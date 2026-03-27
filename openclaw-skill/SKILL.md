@@ -57,21 +57,28 @@ requires:
     - name: openclaw-video-generator
       source: npm
       version: "1.6.2"
+      registry_url: https://www.npmjs.com/package/openclaw-video-generator
       verified_repo: https://github.com/ZhenRobotics/openclaw-video-generator
       verified_commit: 6279034
+      npm_latest: "1.6.2"
 install:
+  method: npm
+  package: openclaw-video-generator@1.6.2
   commands:
     - npm install -g openclaw-video-generator@1.6.2
   verify:
     - openclaw-video-generator --version
+  registry_verification: |
+    npm info openclaw-video-generator version
+    # Expected output: 1.6.2
+  post_install: |
+    Configure ONE provider (see api_keys section above):
+    OpenAI (default): export OPENAI_API_KEY="sk-..."
+    Or Azure/Aliyun/Tencent (see api_keys for details)
   notes: |
-    Provider Setup (choose ONE):
-    • OpenAI: Set OPENAI_API_KEY
-    • Azure: Set AZURE_SPEECH_KEY + AZURE_SPEECH_REGION
-    • Aliyun: Set ALIYUN_ACCESS_KEY_ID + ALIYUN_ACCESS_KEY_SECRET + ALIYUN_APP_KEY
-    • Tencent: Set TENCENT_SECRET_ID + TENCENT_SECRET_KEY + TENCENT_APP_ID
-
-    Store keys in .env file. See README for setup guide.
+    Install spec note: npm package.json does not include environment variable declarations
+    (this is a spec limitation, not a security issue). All configuration is documented above
+    in the api_keys section. Verification: npm info openclaw-video-generator
 ---
 
 # 🎬 Video Generator Skill
