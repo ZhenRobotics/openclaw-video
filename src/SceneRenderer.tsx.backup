@@ -1,6 +1,7 @@
 import React from 'react';
 import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Video, staticFile } from 'remotion';
 import { SceneData } from './types';
+import { designTokens, getTextShadow, getGlitchShadow } from './styles/design-tokens';
 
 interface SceneRendererProps {
   scene: SceneData;
@@ -31,7 +32,13 @@ export const SceneRenderer: React.FC<SceneRendererProps> = ({ scene }) => {
   const animation = getAnimation();
 
   return (
-    <AbsoluteFill style={{ justifyContent: 'flex-end', alignItems: 'center', paddingBottom: 150 }}>
+    <AbsoluteFill
+      style={{
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        paddingBottom: designTokens.spacing[40],  // 150px
+      }}
+    >
       {/* Scene-specific background video (overrides global background) */}
       {scene.bgVideo && (
         <>
@@ -43,13 +50,18 @@ export const SceneRenderer: React.FC<SceneRendererProps> = ({ scene }) => {
               height: '100%',
               objectFit: 'cover',
               opacity: scene.bgOpacity ?? 0.3,
-              zIndex: 0,
+              zIndex: designTokens.layout.zIndex.background,
             }}
             volume={0}
             loop
           />
           {/* Dark overlay for scene background */}
-          <AbsoluteFill style={{ backgroundColor: 'rgba(10, 10, 15, 0.6)', zIndex: 1 }} />
+          <AbsoluteFill
+            style={{
+              backgroundColor: designTokens.colors.background.translucentLight,
+              zIndex: designTokens.layout.zIndex.overlay,
+            }}
+          />
         </>
       )}
 
@@ -57,36 +69,30 @@ export const SceneRenderer: React.FC<SceneRendererProps> = ({ scene }) => {
       <div
         style={{
           position: 'relative',
-          padding: '15px 50px',
-          background: 'linear-gradient(90deg, rgba(0,0,0,0.6), rgba(0,0,0,0.85), rgba(0,0,0,0.6))',
-          borderRadius: 12,
-          backdropFilter: 'blur(10px)',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
-          zIndex: 2,
-          maxWidth: '90%',
+          padding: `${designTokens.spacing[4]}px ${designTokens.spacing[15]}px`,  // ~15px 50px
+          background: designTokens.colors.gradients.darkenCenter,
+          borderRadius: designTokens.effects.borderRadius.md,
+          backdropFilter: designTokens.effects.blur.medium,
+          boxShadow: designTokens.effects.shadow.soft,
+          zIndex: designTokens.layout.zIndex.content,
+          maxWidth: designTokens.layout.maxWidth.text,
         }}
       >
         <div
           style={{
-            fontSize: 80,
-            fontWeight: 'bold',
-            color: scene.color || '#FFFFFF',
+            fontSize: designTokens.typography.fontSize['5xl'],  // 80px
+            fontWeight: designTokens.typography.fontWeight.bold,
+            fontFamily: designTokens.typography.fontFamily.primary,
+            color: scene.color || designTokens.colors.text.primary,
             textAlign: 'center',
             whiteSpace: 'pre-line',
             transform: `scale(${animation.scale}) translateY(${animation.translateY}px)`,
             opacity: animation.opacity,
             textShadow: scene.type === 'title'
               ? animation.glitch
-              : `
-                0 0 10px rgba(0, 255, 255, 0.4),
-                0 0 20px rgba(0, 255, 255, 0.2),
-                0 4px 10px rgba(0, 0, 0, 0.9),
-                -2px -2px 0 rgba(0, 0, 0, 0.8),
-                2px -2px 0 rgba(0, 0, 0, 0.8),
-                -2px 2px 0 rgba(0, 0, 0, 0.8),
-                2px 2px 0 rgba(0, 0, 0, 0.8)
-              `,
-            lineHeight: 1.2,
+              : designTokens.effects.textEffect.cyberGlow,
+            lineHeight: designTokens.typography.lineHeight.normal,
+            letterSpacing: designTokens.typography.letterSpacing.tight,
           }}
         >
           {highlightText(scene.title, scene.highlight)}
@@ -97,14 +103,18 @@ export const SceneRenderer: React.FC<SceneRendererProps> = ({ scene }) => {
       {scene.subtitle && (
         <div
           style={{
-            fontSize: 40,
-            color: '#888888',
+            fontSize: designTokens.typography.fontSize['2xl'],  // 40px
+            fontFamily: designTokens.typography.fontFamily.primary,
+            fontWeight: designTokens.typography.fontWeight.regular,
+            color: designTokens.colors.text.tertiary,
             textAlign: 'center',
             whiteSpace: 'pre-line',
-            marginTop: 40,
+            marginTop: designTokens.spacing[10],  // 40px
             opacity: interpolate(frame, [5, 15], [0, 1], { extrapolateRight: 'clamp' }),
             position: 'relative',
-            zIndex: 2,
+            zIndex: designTokens.layout.zIndex.content,
+            textShadow: designTokens.effects.textEffect.subtleDepth,
+            lineHeight: designTokens.typography.lineHeight.relaxed,
           }}
         >
           {highlightText(scene.subtitle, scene.highlight)}
@@ -115,13 +125,22 @@ export const SceneRenderer: React.FC<SceneRendererProps> = ({ scene }) => {
       {scene.number && (
         <div
           style={{
-            fontSize: 120,
-            fontWeight: 'bold',
-            color: '#FFD700',
+            fontSize: designTokens.typography.fontSize['6xl'],  // 120px
+            fontFamily: designTokens.typography.fontFamily.primary,
+            fontWeight: designTokens.typography.fontWeight.bold,
+            color: designTokens.colors.accent.gold,
             position: 'absolute',
             top: '40%',
-            transform: `scale(${spring({ frame, fps, from: 0, to: 1 })})`,
-            zIndex: 2,
+            transform: `scale(${spring({
+              frame,
+              fps,
+              from: 0,
+              to: 1,
+              config: designTokens.animation.spring.bouncy,
+            })})`,
+            zIndex: designTokens.layout.zIndex.content,
+            textShadow: designTokens.effects.textEffect.goldShine,
+            letterSpacing: designTokens.typography.letterSpacing.normal,
           }}
         >
           {scene.number}
@@ -133,10 +152,11 @@ export const SceneRenderer: React.FC<SceneRendererProps> = ({ scene }) => {
         <div
           style={{
             position: 'absolute',
-            bottom: 100,
-            right: 100,
+            bottom: designTokens.spacing[24],  // ~100px
+            right: designTokens.spacing[24],   // ~100px
             fontSize: 60,
-            zIndex: 2,
+            zIndex: designTokens.layout.zIndex.foreground,
+            filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6))',
           }}
         >
           {getXiaomoEmoji(scene.xiaomo)}
@@ -150,16 +170,28 @@ export const SceneRenderer: React.FC<SceneRendererProps> = ({ scene }) => {
 function getTitleAnimation(frame: number, fps: number) {
   const glitchAmount = Math.sin(frame * 0.5) * 3;
   return {
-    scale: spring({ frame, fps, from: 0.8, to: 1 }),
+    scale: spring({
+      frame,
+      fps,
+      from: 0.8,
+      to: 1,
+      config: designTokens.animation.spring.smooth,
+    }),
     translateY: 0,
     opacity: 1,
-    glitch: `${glitchAmount}px 0 0 rgba(255, 0, 0, 0.7), ${-glitchAmount}px 0 0 rgba(0, 255, 255, 0.7)`,
+    glitch: getGlitchShadow(glitchAmount),
   };
 }
 
 function getEmphasisAnimation(frame: number, fps: number) {
   return {
-    scale: spring({ frame, fps, from: 1.5, to: 1, config: { damping: 10 } }),
+    scale: spring({
+      frame,
+      fps,
+      from: 1.5,
+      to: 1,
+      config: designTokens.animation.spring.bouncy,
+    }),
     translateY: 0,
     opacity: 1,
     glitch: '',
@@ -195,7 +227,13 @@ function getContentAnimation(frame: number, fps: number) {
 
 function getEndAnimation(frame: number, fps: number) {
   return {
-    scale: spring({ frame, fps, from: 0.5, to: 1 }),
+    scale: spring({
+      frame,
+      fps,
+      from: 0.5,
+      to: 1,
+      config: designTokens.animation.spring.gentle,
+    }),
     translateY: 0,
     opacity: 1,
     glitch: '',
@@ -213,7 +251,14 @@ function highlightText(text: string, highlight?: string) {
         <React.Fragment key={index}>
           {part}
           {index < parts.length - 1 && (
-            <span style={{ color: '#00FFFF' }}>{highlight}</span>
+            <span
+              style={{
+                color: designTokens.colors.primary.cyan,
+                textShadow: designTokens.effects.glow.cyan.strong,
+              }}
+            >
+              {highlight}
+            </span>
           )}
         </React.Fragment>
       ))}

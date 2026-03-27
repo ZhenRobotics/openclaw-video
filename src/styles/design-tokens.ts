@@ -88,8 +88,8 @@ export const designTokens = {
   typography: {
     // Font families (with web-safe fallbacks)
     fontFamily: {
-      primary: "'Orbitron', 'Rajdhani', 'Exo 2', sans-serif",  // Futuristic display
-      secondary: "'Share Tech Mono', 'JetBrains Mono', 'Courier New', monospace",  // Tech monospace
+      primary: "'-apple-system', 'BlinkMacSystemFont', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif",  // Classic business fonts
+      secondary: "'Georgia', 'Times New Roman', serif",  // Serif for emphasis
       system: "'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",  // System fallback
     },
 
